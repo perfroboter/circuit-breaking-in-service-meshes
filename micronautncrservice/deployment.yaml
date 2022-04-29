@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micronautncrservice-deployment
+  labels:
+    app: micronautncrservice
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micronautncrservice
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: micronautncrservice
+        version: v1
+    spec:
+      containers:
+      - name: micronautncrservice
+        image: micronautncrservice:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: micronautncrservice
+spec:
+  selector: 
+    app: micronautncrservice
+  ports: 
+  - name: http-ncr
+    protocol: TCP
+    port: 8080
+    targetPort: 8080

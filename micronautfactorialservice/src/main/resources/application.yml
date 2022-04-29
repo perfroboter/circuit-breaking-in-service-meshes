@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: micronautguide
+    name: micronautfactorialservice
 netty:
   default:
     allocator:

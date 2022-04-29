@@ -17,8 +17,21 @@ public class FactorialController {
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<MathBigIntResponse> fac(@PathVariable long num) {
     	MathBigIntResponse facResp = new MathBigIntResponse(factorial(BigInteger.valueOf(num)));
+    	if(Math.random() > 0.5) {
+    		System.out.println("Fac(" + num +  "): Time for sleeping");
+    		try {
+    			Thread.sleep(10000);
+    		} catch (InterruptedException e) {
+    			e.printStackTrace();
+    		}
+    	} else {
+    		System.out.println("Fac(" + num +  "): Notime for sleeping");
+    	}
     	
-    	return HttpResponse.status(HttpStatus.OK).body(facResp);
+    	HttpResponse resp = HttpResponse.status(HttpStatus.OK).body(facResp);
+    	
+    	System.out.println("Fac(" + num +  "): Response is " + facResp.getResult() + " with HTTP " + resp.code());
+    	return resp;
     }
     
   

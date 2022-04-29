@@ -1,8 +1,8 @@
 micronaut:
   application:
-    name: micronautguide
+    name: micronautncrservice
   server:
-    port: 8081
+    port: 8080
 netty:
   default:
     allocator:

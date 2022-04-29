@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>example.micronaut</groupId>
-  <artifactId>micronautfactorialservice</artifactId>
+  <artifactId>micronautncrservice</artifactId>
   <version>0.1</version>
   <packaging>${packaging}</packaging>
 
@@ -76,6 +76,16 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>io.micronaut.reactor</groupId>
+      <artifactId>micronaut-reactor</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut.reactor</groupId>
+      <artifactId>micronaut-reactor-http-client</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>jakarta.annotation</groupId>
       <artifactId>jakarta.annotation-api</artifactId>
       <scope>compile</scope>
@@ -110,7 +120,7 @@
           </annotationProcessorPaths>
           <compilerArgs>
             <arg>-Amicronaut.processing.group=example.micronaut</arg>
-            <arg>-Amicronaut.processing.module=micronautfactorialservice</arg>
+            <arg>-Amicronaut.processing.module=micronautncrservice</arg>
           </compilerArgs>
         </configuration>
       </plugin>
