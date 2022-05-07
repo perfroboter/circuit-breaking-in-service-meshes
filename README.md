@@ -49,3 +49,6 @@ curl http://micronautfactorialservice:8080/fac/5 #Nutzt Service-Discovery von Ku
 skaffold delete
 ```
 
+# Lasttest
+
+siehe 'load-tests'

@@ -11,6 +11,7 @@ spec:
     name: http
   selector:
     app: fortio
+  type: LoadBalancer #eingefügt
 ---
 apiVersion: apps/v1
 kind: Deployment

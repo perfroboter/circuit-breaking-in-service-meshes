@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import org.reactivestreams.Publisher;
+
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 
@@ -45,17 +47,20 @@ public class NCRController {
     @Produces(MediaType.APPLICATION_JSON) 
     public Mono<HttpResponse<?>> nCr(@PathVariable long n, @PathVariable long r) {
 		
+		if(n < 0 || r < 0 || r < n) {
+			return Mono.just(HttpResponse.status(HttpStatus.BAD_REQUEST, "Invalid values for n or r."));
+		}
+		
 		Mono<BigInteger> mono = Flux.concat(facClient.getFactorial(r).map(result -> result.getResult()), 
 				facClient.getFactorial(n-r).map(result -> result.getResult()))
 				.reduce((fac_r,fac_n_r) -> fac_r.multiply(fac_n_r)).concatWith(facClient.getFactorial(n).map(result -> result.getResult())).reduce((nenner,zaehler) -> zaehler.divide(nenner));
 				
-		Function<BigInteger,HttpResponse<?>> mapper = bi -> HttpResponse.status(HttpStatus.OK).body("{ \"result\":" + bi.toString() + "}");
+		Function<BigInteger,HttpResponse<?>> mapper = (bi -> HttpResponse.status(HttpStatus.OK).body("{ \"result\":" + bi.toString() + "}"));
 		
 		Mono<HttpResponse<?>> httpResp = mono.map(mapper);
 		
 		
 		
-		//TODO: Ungültige Werte abfangen
 		/*
     	BigInteger facN = facClient.getFactorial(n).block().getResult();
     	System.out.println("BigInt: " + facN);
