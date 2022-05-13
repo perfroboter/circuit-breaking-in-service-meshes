@@ -62,7 +62,7 @@ public class SpringfactorialApplication {
       }
 	
     
-    @GetMapping("/error/")
+    @GetMapping("/error")
 	public String error() throws Exception {
     	return cb.run(() -> {throw new RuntimeException("Evoked internal error (RuntimeException)");});
     }
