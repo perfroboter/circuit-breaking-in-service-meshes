@@ -12,8 +12,13 @@ build:
     context: micronautncrservice
     docker:
       dockerfile: Dockerfile
+  - image: springfactorialservice
+    context: springfactorialservice
+    docker:
+      dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
     - micronautncrservice/deployment.yaml
     - micronautfactorialservice/deployment.yaml
+    - springfactorialservice/deployment.yaml

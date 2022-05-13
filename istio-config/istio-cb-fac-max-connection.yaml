@@ -2,9 +2,9 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: micronautncrservice-circuit-breaker
+  name: micronautfactorialservice-circuit-breaker
 spec:
-  host: micronautncrservice
+  host: micronautfactorialservice
   trafficPolicy:
     connectionPool:
       tcp:

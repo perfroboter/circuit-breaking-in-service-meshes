@@ -6,11 +6,10 @@ deploy_fortio() {
 
 t1() {
   echo "Test 1: Testen von Istio ohne Circuit-Breaker unter Variierung der Connection-Anzahl"
-  run-connections
+  runconnections
 }
 
-
-run-connections() {
+runconnections() {
 echo "Run 1a: 5 Connections, 500 Aufrufe"
   kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio load -c 5 -n 500 -loglevel Fatal http://micronautncrservice:8080/ncr/10000/5000
   echo "Run 1b: 10 Connections, 500 Aufrufe"
@@ -22,6 +21,7 @@ echo "Run 1a: 5 Connections, 500 Aufrufe"
     echo "Run 1c: 80 Connections, 500 Aufrufe"
   kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio load -c 80 -n 500 -loglevel Warning http://micronautncrservice:8080/ncr/10000/5000
 }
+
 
 case "$1" in
   deploy_fortio)

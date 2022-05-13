@@ -41,6 +41,14 @@ public class FactorialController {
         return "Calculation: fac(" + num + ") = " + factorial(BigInteger.valueOf(num));
     }
     
+    
+    
+    @Get("/error")
+    public HttpResponse<?> sendInternalServerError() {
+    	System.out.println("Sending error code");
+    	return HttpResponse.status(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
     private BigInteger factorial(BigInteger number) {
    	 BigInteger result = BigInteger.valueOf(1);
 
