@@ -8,22 +8,23 @@ Es stehen zwei Mircroservices in diesem simplen Prototyp zur Verfügung:
 
 1. Binominalkoeffizient-Service (`micronautnCrService`):   
 Berechnet die Binominalkoeffizient aus zwei Parametern n und r (deutsch: n über k) unter Nutzung des Fakultäts-Service  
-Beispiel "6 aus 49": http://localhost:8081/ncr/49/6
-2. Fakultäts-Service (`micronautfactorialservice`):   
+Beispiel "6 aus 49": http://localhost:8081/ncr/49/6 bzw. http://micronautncrservice:8080/6
+2. Fakultäts-Service A (`micronautfactorialservice`):   
 Berechnet die Fakultät zu einem übergebenen Parameter  
-Beispiel: "6!": http://localhost:8080/fac/6
-
-
-## Resilence-Funktionen von Micronaut
-TODO
-
+Beispiel: "6!": http://localhost:8080/fac/6 bzw. http://micronautfactorialservice:8080/6
+Zweiter Endpunkt: `/error` löst einen Internal Server Error aus
+3. Fakultäts-Service B (`springfactorialservice`):
+Berechnet die Fakultät zu einem übergebenen Parameter  
+Beispiel: "6!": http://localhost:8080/fac/6 bzw. http://springfactorialservice:8080/6
+Zweiter Endpunkt: `/error` löst einen Internal Server Error aus
 
 ## Resilience-Funktionen von Istio
+- Circuit-Breaker in der Outlier-Detection-Konfiguration ist wie folgt aktivierbar: `kubectl apply -f istio-config/istio-cb-fac-error-detection.yaml`
+Der Funktionstest löst den Circuit-Breaker aus: `./tests/functional-tests/test-cb-istio-error-detection.sh` (zuvor den Test-Pod starten s.u.)
 
-## Quellen:
-- Micronaut-Client-Example: https://guides.micronaut.io/latest/micronaut-http-client-gradle-java.html
-- Micronaut-Service-Example: https://guides.micronaut.io/latest/creating-your-first-micronaut-app-gradle-java.html
-- https://stackoverflow.com/questions/891031/is-there-a-method-that-calculates-a-factorial-in-java
+## Resilience-Funktionen von Spring Cloud bzw. Resilience4J
+- Default-Konfiguration des Circuit-Breakers ist aktiv
+Der Funktionstest löst der Circuit-Breaker aus: `./tests/functional-tests/test-cb-spring-error-detection.sh` (zuvor den Test-Pod starten s.u.)
 
 ## Microservices in Kubernetes Cluster starten
 
@@ -34,6 +35,7 @@ Vorraussetzungen:
 - Minikube ist installiert (./manage-cluster install-minikube)
 - Skaffold ist installiert und konfiguriert  (./manage-cluster install-skaffold && ./manage-cluster setup-skaffold-for-local )
 - Istio bzw. istioctl ist installiert (./manage-cluster install-istio)
+- Java-Services wurden einmal mit Maven gebaut (im Target-Ordner muss eine Jar liegen)
 
 ```bash
 # 1. Minibube starten
@@ -47,8 +49,17 @@ kubectl run -n default -it --rm --image=buildpack-deps:stretch-curl tester /bin/
 curl http://micronautfactorialservice:8080/fac/5 #Nutzt Service-Discovery von Kubernetes
 # 5. Cluster aufräumen und deployte Artefakte löschen
 skaffold delete
+# 6. Apply Circuit Breaker für micronautfactorialservice
+kubectl apply -f istio-config/istio-cb-fac-error-detection.yaml
+# 7. Show active DestinationRules
+kubectl get destinationrule
 ```
 
-# Lasttest
+## Quellen:
+- Micronaut-Client-Example: https://guides.micronaut.io/latest/micronaut-http-client-gradle-java.html
+- Micronaut-Service-Example: https://guides.micronaut.io/latest/creating-your-first-micronaut-app-gradle-java.html
+- https://stackoverflow.com/questions/891031/is-there-a-method-that-calculates-a-factorial-in-java
+- Spring-Cloud: Spring-Cloud-Starter + Spring-Cloud-Samples Circuit Breaker
 
-siehe 'load-tests'
+# Lasttest
+siehe 'load-tests' (in Arbeit bzw. Überarbeitung)
