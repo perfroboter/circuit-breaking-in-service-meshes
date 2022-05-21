@@ -1,6 +1,7 @@
 package de.fhms.springfactorial;
 
 import java.math.BigInteger;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.springframework.boot.SpringApplication;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 
@@ -26,6 +29,7 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 public class SpringfactorialApplication {
 	
 	private final  CircuitBreaker cb; 
+	private static long counter = 1;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringfactorialApplication.class, args);
@@ -43,14 +47,63 @@ public class SpringfactorialApplication {
 		this.cb = cbFactory.create("fac");
 	}
 
-
-
-	@GetMapping("/fac/{num}")
-	public String fac(@PathVariable long num) {
-		return cb.run(() -> String.format("{\"result\"=%s}", factorial(BigInteger.valueOf(num)).toString()));
+	@GetMapping("/fac-with-cb/{num}")
+	public String facWithCB(@PathVariable long num) {
+		cb.run(() -> "korrekt",(String) -> "failback");
+		return cb.run(() -> String.format("{\"result\"=%s}", factorial(BigInteger.valueOf(num)).toString()), (T) -> {throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);});
 	
 	}
 	
+	@GetMapping("/fac-without-cb/{num}")
+	public String facWithoutCB(@PathVariable long num) {
+		return String.format("{\"result\"=%s}", factorial(BigInteger.valueOf(num)).toString());
+	
+	}
+	
+	@GetMapping("/fac-with-config/{num}")
+	@Deprecated
+	//TODO: Funktioniert nur bei Replica = 1
+	public String facWithConfig(@PathVariable long num, @RequestParam boolean isCB, @RequestParam long consFails , @RequestParam long successCalls) throws Exception {	
+		if(isCB) {
+			if(isError(consFails,successCalls)) {
+				return throwError();
+			} else {
+				return facWithCB(num);
+			}
+		} else {
+			if(isError(consFails,successCalls)) {
+				return throwErrorWithoutCB();
+			} else {
+				return facWithoutCB(num);
+			}
+		}
+	}
+	
+	@Deprecated
+	//TODO: Counter verzählt sich, um einen?
+	private synchronized boolean isError(long consFails, long successCalls) {
+		if(counter <= successCalls) {
+			counter++;
+			return false;
+		} else if (counter <= (successCalls + consFails)){
+			counter++;
+			return true;
+		} else {
+			counter = 1;
+			return false;
+		}
+	}
+	
+    @GetMapping("/throw-error")
+	public String throwError() throws Exception {
+    	cb.run(() -> {throw new RuntimeException("Evoked internal error (RuntimeException)");});
+    	throw new ResponseStatusException(HttpStatus.BAD_REQUEST); 
+    }
+	
+    @GetMapping("/throw-error-without-cb")
+   	public String throwErrorWithoutCB() throws Exception {
+       	throw new ResponseStatusException(HttpStatus.BAD_REQUEST); 
+       }
     private BigInteger factorial(BigInteger number) {
       	 BigInteger result = BigInteger.valueOf(1);
 
@@ -60,10 +113,6 @@ public class SpringfactorialApplication {
 
       	    return result;
       }
-	
     
-    @GetMapping("/error")
-	public String error() throws Exception {
-    	return cb.run(() -> {throw new RuntimeException("Evoked internal error (RuntimeException)");});
-    }
+
 }
