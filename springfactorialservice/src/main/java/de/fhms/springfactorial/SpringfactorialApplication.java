@@ -29,7 +29,7 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 public class SpringfactorialApplication {
 	
 	private final  CircuitBreaker cb; 
-	private static long counter = 1;
+	private static volatile long counter = 0;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringfactorialApplication.class, args);
@@ -49,7 +49,6 @@ public class SpringfactorialApplication {
 
 	@GetMapping("/fac-with-cb/{num}")
 	public String facWithCB(@PathVariable long num) {
-		cb.run(() -> "korrekt",(String) -> "failback");
 		return cb.run(() -> String.format("{\"result\"=%s}", factorial(BigInteger.valueOf(num)).toString()), (T) -> {throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);});
 	
 	}
@@ -63,6 +62,7 @@ public class SpringfactorialApplication {
 	@GetMapping("/fac-with-config/{num}")
 	@Deprecated
 	//TODO: Funktioniert nur bei Replica = 1
+	//Example: /fac-with-config/5?isCB=true&consFails=2&successCalls=3
 	public String facWithConfig(@PathVariable long num, @RequestParam boolean isCB, @RequestParam long consFails , @RequestParam long successCalls) throws Exception {	
 		if(isCB) {
 			if(isError(consFails,successCalls)) {
@@ -82,11 +82,10 @@ public class SpringfactorialApplication {
 	@Deprecated
 	//TODO: Counter verzählt sich, um einen?
 	private synchronized boolean isError(long consFails, long successCalls) {
+		counter++;
 		if(counter <= successCalls) {
-			counter++;
 			return false;
 		} else if (counter <= (successCalls + consFails)){
-			counter++;
 			return true;
 		} else {
 			counter = 1;

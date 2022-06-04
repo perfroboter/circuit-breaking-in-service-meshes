@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 deploy_fortio() {
   kubectl apply -f ../istio-config/deploy-load-tester.yaml
