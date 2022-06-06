@@ -8,7 +8,7 @@ PATH_THROW_EROR_WITHOUT_CB="/throw-error-without-cb"
 WORKLOADS=('5' '5000' '10000' '15000' '20000' '30000')
 FORTIO_POD="fortio-deploy-7dcd84c469-nmbhj"
 FORTIO_DOWNLOAD_URL="http://10.102.109.95:8080/fortio/data/"
-TESTRESULT_FOLDER="testresults/"
+TESTRESULT_FOLDER="tests/testresults/"
 
 
 print_message() {
@@ -33,7 +33,7 @@ run_test_in_fortio() {
    timestamp=$(date +%Y-%m-%d-%H-%M-%S)
    print_message "START TESTRUN $1" "No.: $1 Title: $2 Time: $timestamp"
    filename="$timestamp-$1-$2.json"
-   kubectl exec $FORTIO_POD -c fortio -- /usr/bin/fortio load -json $filename -qps $3 -t $4  $5 >& /dev/null
+   kubectl exec $FORTIO_POD -c fortio -- /usr/bin/fortio load -json $filename -qps $3 -t $4 -allow-initial-errors $5  >& /dev/null
    curl "${FORTIO_DOWNLOAD_URL}${filename}" -o "${TESTRESULT_FOLDER}${filename}" >& /dev/null
    echo "Json-Result saved to $filename" 
    print_message "END TESTRUN $1"
@@ -43,21 +43,30 @@ run_test_in_fortio() {
 print_message "STARTING TESTSUITE" "Aktuelle Istio-Konfiguration (Destinationrule):"
 kubectl get destinationrule
 
+
 print_message "TESTSZENARIO A: Normal" "Normales Verhalten: keine Überlast, keine Fehler"
 run_test_in_fortio 1 "a-without-cb" "10" "120s" "${SERVICE_URL}${PATH_WITHOUT_CB}${WORKLOADS[2]}"
-sleep 60
+sleep 70
 run_test_in_fortio 2 "a-with-r4j-cb" "10" "120s" "${SERVICE_URL}${PATH_WITH_R4J_CB}${WORKLOADS[2]}"
-sleep 60
+sleep 70
 # Istio konfigurieren
 # Istio testen
 
 print_message "TESTSZENARIO B: Permanente Überlast" "Permanente Überlast: konstant hoher Workload"
-run_test_in_fortio 1 "b-without-cb" "30" "120s" "${SERVICE_URL}${PATH_WITHOUT_CB}${WORKLOADS[5]}"
-sleep 60
-END
-run_test_in_fortio 2 "b-with-r4j-cb" "30" "120s" "${SERVICE_URL}${PATH_WITH_R4J_CB}${WORKLOADS[5]}"
+run_test_in_fortio 3 "b-without-cb" "10" "120s" "${SERVICE_URL}${PATH_WITHOUT_CB}${WORKLOADS[5]}"
+sleep 70
+run_test_in_fortio 4 "b-with-r4j-cb" "10" "120s" "${SERVICE_URL}${PATH_WITH_R4J_CB}${WORKLOADS[5]}"
+sleep 70
+# Istio konfigurieren
+# Istio testen
+
+print_message "TESTSZENARIO C: Permanente Fehler" "Dauerhafte Fehler, keine Überlast"
+run_test_in_fortio 5 "c-without-cb" "10" "120s" "${SERVICE_URL}${PATH_THROW_EROR_WITHOUT_CB}"
+sleep 70
+run_test_in_fortio 6 "c-with-r4j-cb" "10" "120s" "${SERVICE_URL}${PATH_THROW_ERROR_WITH_CB}"
 # sleep 60
 # Istio konfigurieren
 # Istio testen
+
 
 print_message "END TESTSUITE" ""

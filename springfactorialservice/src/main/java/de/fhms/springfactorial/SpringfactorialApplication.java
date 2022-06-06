@@ -96,12 +96,12 @@ public class SpringfactorialApplication {
     @GetMapping("/throw-error")
 	public String throwError() throws Exception {
     	cb.run(() -> {throw new RuntimeException("Evoked internal error (RuntimeException)");});
-    	throw new ResponseStatusException(HttpStatus.BAD_REQUEST); 
+    	throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR); 
     }
 	
     @GetMapping("/throw-error-without-cb")
    	public String throwErrorWithoutCB() throws Exception {
-       	throw new ResponseStatusException(HttpStatus.BAD_REQUEST); 
+       	throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR); 
        }
     private BigInteger factorial(BigInteger number) {
       	 BigInteger result = BigInteger.valueOf(1);
