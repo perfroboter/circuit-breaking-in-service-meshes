@@ -1,0 +1,193 @@
+{
+  "RunType": "HTTP",
+  "Labels": "springfactorialservice:8080/throw-error , fortio-deploy-7dcd84c469-nmbhj",
+  "StartTime": "2022-06-07T12:29:04.181647134Z",
+  "RequestedQPS": "10",
+  "RequestedDuration": "2m0s",
+  "ActualQPS": 9.999467288629653,
+  "ActualDuration": 120006392877,
+  "NumThreads": 4,
+  "Version": "1.27.0",
+  "DurationHistogram": {
+    "Count": 1200,
+    "Min": 0.002470288,
+    "Max": 0.03407261,
+    "Sum": 7.074298719999999,
+    "Avg": 0.005895248933333332,
+    "StdDev": 0.002355584501228093,
+    "Data": [
+      {
+        "Start": 0.002470288,
+        "End": 0.003,
+        "Percent": 0.4166666666666667,
+        "Count": 5
+      },
+      {
+        "Start": 0.003,
+        "End": 0.004,
+        "Percent": 9.416666666666666,
+        "Count": 108
+      },
+      {
+        "Start": 0.004,
+        "End": 0.005,
+        "Percent": 32.666666666666664,
+        "Count": 279
+      },
+      {
+        "Start": 0.005,
+        "End": 0.006,
+        "Percent": 64,
+        "Count": 376
+      },
+      {
+        "Start": 0.006,
+        "End": 0.007,
+        "Percent": 84.5,
+        "Count": 246
+      },
+      {
+        "Start": 0.007,
+        "End": 0.008,
+        "Percent": 91.5,
+        "Count": 84
+      },
+      {
+        "Start": 0.008,
+        "End": 0.009000000000000001,
+        "Percent": 94.58333333333333,
+        "Count": 37
+      },
+      {
+        "Start": 0.009000000000000001,
+        "End": 0.01,
+        "Percent": 96.08333333333333,
+        "Count": 18
+      },
+      {
+        "Start": 0.01,
+        "End": 0.011,
+        "Percent": 97.91666666666667,
+        "Count": 22
+      },
+      {
+        "Start": 0.011,
+        "End": 0.012,
+        "Percent": 98.66666666666667,
+        "Count": 9
+      },
+      {
+        "Start": 0.012,
+        "End": 0.014,
+        "Percent": 99.25,
+        "Count": 7
+      },
+      {
+        "Start": 0.014,
+        "End": 0.016,
+        "Percent": 99.5,
+        "Count": 3
+      },
+      {
+        "Start": 0.016,
+        "End": 0.018000000000000002,
+        "Percent": 99.66666666666667,
+        "Count": 2
+      },
+      {
+        "Start": 0.03,
+        "End": 0.03407261,
+        "Percent": 100,
+        "Count": 4
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 0.005553191489361702
+      },
+      {
+        "Percentile": 75,
+        "Value": 0.006536585365853659
+      },
+      {
+        "Percentile": 90,
+        "Value": 0.007785714285714286
+      },
+      {
+        "Percentile": 99,
+        "Value": 0.013142857142857137
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 0.032850827000000055
+      }
+    ]
+  },
+  "Exactly": 0,
+  "Jitter": false,
+  "Uniform": false,
+  "NoCatchUp": false,
+  "RunID": 0,
+  "AccessLoggerInfo": "",
+  "RetCodes": {
+    "404": 1200
+  },
+  "Insecure": false,
+  "CACert": "",
+  "Cert": "",
+  "Key": "",
+  "UnixDomainSocket": "",
+  "URL": "http://springfactorialservice:8080/throw-error",
+  "NumConnections": 1,
+  "Compression": false,
+  "DisableFastClient": false,
+  "HTTP10": false,
+  "DisableKeepAlive": false,
+  "AllowHalfClose": false,
+  "FollowRedirects": false,
+  "Resolve": "",
+  "HTTPReqTimeOut": 3000000000,
+  "UserCredentials": "",
+  "ContentType": "",
+  "Payload": "",
+  "LogErrors": true,
+  "ID": 0,
+  "SequentialWarmup": false,
+  "Sizes": {
+    "Count": 1200,
+    "Min": 353,
+    "Max": 359,
+    "Sum": 429540,
+    "Avg": 357.95,
+    "StdDev": 0.5454356057317857,
+    "Data": [
+      {
+        "Start": 353,
+        "End": 359,
+        "Percent": 100,
+        "Count": 1200
+      }
+    ],
+    "Percentiles": null
+  },
+  "HeaderSizes": {
+    "Count": 1200,
+    "Min": 0,
+    "Max": 0,
+    "Sum": 0,
+    "Avg": 0,
+    "StdDev": 0,
+    "Data": [
+      {
+        "Start": 0,
+        "End": 0,
+        "Percent": 100,
+        "Count": 1200
+      }
+    ],
+    "Percentiles": null
+  },
+  "SocketCount": 1204,
+  "AbortOn": 0
+}

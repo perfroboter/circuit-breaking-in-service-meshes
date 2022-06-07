@@ -3,7 +3,7 @@
 SERVICE_URL="http://springfactorialservice:8080"
 PATH_WITH_R4J_CB="/fac-with-cb/"
 PATH_WITHOUT_CB="/fac-without-cb/"
-PATH_THROW_ERROR_WITH_CB="/throw-error"
+PATH_THROW_ERROR_WITH_CB="/throw-error-with-cb"
 PATH_THROW_EROR_WITHOUT_CB="/throw-error-without-cb"
 WORKLOADS=('5' '5000' '10000' '15000' '20000' '30000')
 FORTIO_POD="fortio-deploy-7dcd84c469-nmbhj"
@@ -43,30 +43,40 @@ run_test_in_fortio() {
 print_message "STARTING TESTSUITE" "Aktuelle Istio-Konfiguration (Destinationrule):"
 kubectl get destinationrule
 
-
+: << END
 print_message "TESTSZENARIO A: Normal" "Normales Verhalten: keine Überlast, keine Fehler"
 run_test_in_fortio 1 "a-without-cb" "10" "120s" "${SERVICE_URL}${PATH_WITHOUT_CB}${WORKLOADS[2]}"
 sleep 70
 run_test_in_fortio 2 "a-with-r4j-cb" "10" "120s" "${SERVICE_URL}${PATH_WITH_R4J_CB}${WORKLOADS[2]}"
+kubectl apply -f istio-config/springfac-cb-errors.yaml
 sleep 70
-# Istio konfigurieren
-# Istio testen
+kubectl get destinationrule
+run_test_in_fortio 3 "a-with-istio-cb" "10" "120s" "${SERVICE_URL}${PATH_WITHOUT_CB}${WORKLOADS[2]}"
+kubectl delete -f istio-config/springfac-cb-errors.yaml
+sleep 70
+kubectl get destinationrule
+
 
 print_message "TESTSZENARIO B: Permanente Überlast" "Permanente Überlast: konstant hoher Workload"
-run_test_in_fortio 3 "b-without-cb" "10" "120s" "${SERVICE_URL}${PATH_WITHOUT_CB}${WORKLOADS[5]}"
+run_test_in_fortio 4 "b-without-cb" "10" "120s" "${SERVICE_URL}${PATH_WITHOUT_CB}${WORKLOADS[5]}"
 sleep 70
-run_test_in_fortio 4 "b-with-r4j-cb" "10" "120s" "${SERVICE_URL}${PATH_WITH_R4J_CB}${WORKLOADS[5]}"
+run_test_in_fortio 5 "b-with-r4j-cb" "10" "120s" "${SERVICE_URL}${PATH_WITH_R4J_CB}${WORKLOADS[5]}"
 sleep 70
 # Istio konfigurieren
 # Istio testen
 
+
 print_message "TESTSZENARIO C: Permanente Fehler" "Dauerhafte Fehler, keine Überlast"
-run_test_in_fortio 5 "c-without-cb" "10" "120s" "${SERVICE_URL}${PATH_THROW_EROR_WITHOUT_CB}"
+run_test_in_fortio 7 "c-without-cb" "10" "120s" "${SERVICE_URL}${PATH_THROW_EROR_WITHOUT_CB}"
 sleep 70
-run_test_in_fortio 6 "c-with-r4j-cb" "10" "120s" "${SERVICE_URL}${PATH_THROW_ERROR_WITH_CB}"
-# sleep 60
-# Istio konfigurieren
-# Istio testen
+END
+run_test_in_fortio 8 "c-with-r4j-cb" "10" "120s" "${SERVICE_URL}${PATH_THROW_ERROR_WITH_CB}"
+kubectl apply -f istio-config/springfac-cb-errors.yaml
+sleep 70
+kubectl get destinationrule
+run_test_in_fortio 9 "c-with-istio-cb" "10" "120s" "${SERVICE_URL}${PATH_THROW_EROR_WITHOUT_CB}"
+kubectl delete -f istio-config/springfac-cb-errors.yaml
+kubectl get destinationrule
 
 
 print_message "END TESTSUITE" ""
