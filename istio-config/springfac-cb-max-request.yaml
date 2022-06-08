@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: springfac-cb-max-requests
+spec:
+  host: springfactorialservice
+  trafficPolicy:
+    connectionPool:
+      http:
+        http2MaxRequests: 2
