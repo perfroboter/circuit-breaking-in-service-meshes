@@ -1,0 +1,163 @@
+{
+  "RunType": "HTTP",
+  "Labels": "springfactorialservice:8080/fac-without-cb/10000 , fortio-deploy-7dcd84c469-nmbhj",
+  "StartTime": "2022-06-08T12:16:01.346591162Z",
+  "RequestedQPS": "10",
+  "RequestedDuration": "2m0s",
+  "ActualQPS": 9.991560555771228,
+  "ActualDuration": 120101358872,
+  "NumThreads": 4,
+  "Version": "1.27.0",
+  "DurationHistogram": {
+    "Count": 1200,
+    "Min": 0.060226456,
+    "Max": 0.19058728,
+    "Sum": 106.78004163000003,
+    "Avg": 0.08898336802500002,
+    "StdDev": 0.0152226753890978,
+    "Data": [
+      {
+        "Start": 0.060226456,
+        "End": 0.07,
+        "Percent": 7.333333333333333,
+        "Count": 88
+      },
+      {
+        "Start": 0.07,
+        "End": 0.08,
+        "Percent": 29.333333333333332,
+        "Count": 264
+      },
+      {
+        "Start": 0.08,
+        "End": 0.09,
+        "Percent": 58.833333333333336,
+        "Count": 354
+      },
+      {
+        "Start": 0.09,
+        "End": 0.1,
+        "Percent": 80.08333333333333,
+        "Count": 255
+      },
+      {
+        "Start": 0.1,
+        "End": 0.12,
+        "Percent": 95.66666666666667,
+        "Count": 187
+      },
+      {
+        "Start": 0.12,
+        "End": 0.14,
+        "Percent": 99.33333333333333,
+        "Count": 44
+      },
+      {
+        "Start": 0.14,
+        "End": 0.16,
+        "Percent": 99.83333333333333,
+        "Count": 6
+      },
+      {
+        "Start": 0.16,
+        "End": 0.18,
+        "Percent": 99.91666666666667,
+        "Count": 1
+      },
+      {
+        "Start": 0.18,
+        "End": 0.19058728,
+        "Percent": 100,
+        "Count": 1
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 0.08700564971751412
+      },
+      {
+        "Percentile": 75,
+        "Value": 0.0976078431372549
+      },
+      {
+        "Percentile": 90,
+        "Value": 0.11272727272727273
+      },
+      {
+        "Percentile": 99,
+        "Value": 0.1381818181818182
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 0.17600000000000068
+      }
+    ]
+  },
+  "Exactly": 0,
+  "Jitter": false,
+  "Uniform": false,
+  "NoCatchUp": false,
+  "RunID": 0,
+  "AccessLoggerInfo": "",
+  "RetCodes": {
+    "200": 1200
+  },
+  "Insecure": false,
+  "CACert": "",
+  "Cert": "",
+  "Key": "",
+  "UnixDomainSocket": "",
+  "URL": "http://springfactorialservice:8080/fac-without-cb/10000",
+  "NumConnections": 1,
+  "Compression": false,
+  "DisableFastClient": false,
+  "HTTP10": false,
+  "DisableKeepAlive": false,
+  "AllowHalfClose": false,
+  "FollowRedirects": false,
+  "Resolve": "",
+  "HTTPReqTimeOut": 3000000000,
+  "UserCredentials": "",
+  "ContentType": "",
+  "Payload": "",
+  "LogErrors": true,
+  "ID": 0,
+  "SequentialWarmup": false,
+  "Sizes": {
+    "Count": 1200,
+    "Min": 35840,
+    "Max": 35841,
+    "Sum": 43008215,
+    "Avg": 35840.17916666667,
+    "StdDev": 0.3834919034856701,
+    "Data": [
+      {
+        "Start": 35840,
+        "End": 35841,
+        "Percent": 100,
+        "Count": 1200
+      }
+    ],
+    "Percentiles": null
+  },
+  "HeaderSizes": {
+    "Count": 1200,
+    "Min": 169,
+    "Max": 170,
+    "Sum": 203015,
+    "Avg": 169.17916666666667,
+    "StdDev": 0.38349181506278934,
+    "Data": [
+      {
+        "Start": 169,
+        "End": 170,
+        "Percent": 100,
+        "Count": 1200
+      }
+    ],
+    "Percentiles": null
+  },
+  "SocketCount": 4,
+  "AbortOn": 0
+}

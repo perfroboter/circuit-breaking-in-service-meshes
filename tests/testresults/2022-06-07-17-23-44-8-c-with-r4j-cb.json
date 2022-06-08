@@ -1,0 +1,206 @@
+{
+  "RunType": "HTTP",
+  "Labels": "springfactorialservice:8080/throw-error-with-cb , fortio-deploy-7dcd84c469-nmbhj",
+  "StartTime": "2022-06-07T15:23:44.620939291Z",
+  "RequestedQPS": "10",
+  "RequestedDuration": "2m0s",
+  "ActualQPS": 9.999525183796113,
+  "ActualDuration": 120005698065,
+  "NumThreads": 4,
+  "Version": "1.27.0",
+  "DurationHistogram": {
+    "Count": 1200,
+    "Min": 0.000438004,
+    "Max": 0.061965397,
+    "Sum": 2.4973478910000004,
+    "Avg": 0.0020811232425000004,
+    "StdDev": 0.0036400247877205806,
+    "Data": [
+      {
+        "Start": 0.000438004,
+        "End": 0.001,
+        "Percent": 13.75,
+        "Count": 165
+      },
+      {
+        "Start": 0.001,
+        "End": 0.002,
+        "Percent": 66.33333333333333,
+        "Count": 631
+      },
+      {
+        "Start": 0.002,
+        "End": 0.003,
+        "Percent": 94.5,
+        "Count": 338
+      },
+      {
+        "Start": 0.003,
+        "End": 0.004,
+        "Percent": 97.5,
+        "Count": 36
+      },
+      {
+        "Start": 0.004,
+        "End": 0.005,
+        "Percent": 97.91666666666667,
+        "Count": 5
+      },
+      {
+        "Start": 0.005,
+        "End": 0.006,
+        "Percent": 98.66666666666667,
+        "Count": 9
+      },
+      {
+        "Start": 0.006,
+        "End": 0.007,
+        "Percent": 99,
+        "Count": 4
+      },
+      {
+        "Start": 0.007,
+        "End": 0.008,
+        "Percent": 99.08333333333333,
+        "Count": 1
+      },
+      {
+        "Start": 0.016,
+        "End": 0.018000000000000002,
+        "Percent": 99.16666666666667,
+        "Count": 1
+      },
+      {
+        "Start": 0.025,
+        "End": 0.03,
+        "Percent": 99.5,
+        "Count": 4
+      },
+      {
+        "Start": 0.03,
+        "End": 0.035,
+        "Percent": 99.58333333333333,
+        "Count": 1
+      },
+      {
+        "Start": 0.035,
+        "End": 0.04,
+        "Percent": 99.66666666666667,
+        "Count": 1
+      },
+      {
+        "Start": 0.045,
+        "End": 0.05,
+        "Percent": 99.83333333333333,
+        "Count": 2
+      },
+      {
+        "Start": 0.05,
+        "End": 0.06,
+        "Percent": 99.91666666666667,
+        "Count": 1
+      },
+      {
+        "Start": 0.06,
+        "End": 0.061965397,
+        "Percent": 100,
+        "Count": 1
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 0.0016893819334389858
+      },
+      {
+        "Percentile": 75,
+        "Value": 0.002307692307692308
+      },
+      {
+        "Percentile": 90,
+        "Value": 0.0028402366863905324
+      },
+      {
+        "Percentile": 99,
+        "Value": 0.007
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 0.05800000000000034
+      }
+    ]
+  },
+  "Exactly": 0,
+  "Jitter": false,
+  "Uniform": false,
+  "NoCatchUp": false,
+  "RunID": 0,
+  "AccessLoggerInfo": "",
+  "RetCodes": {
+    "500": 9,
+    "503": 1191
+  },
+  "Insecure": false,
+  "CACert": "",
+  "Cert": "",
+  "Key": "",
+  "UnixDomainSocket": "",
+  "URL": "http://springfactorialservice:8080/throw-error-with-cb",
+  "NumConnections": 1,
+  "Compression": false,
+  "DisableFastClient": false,
+  "HTTP10": false,
+  "DisableKeepAlive": false,
+  "AllowHalfClose": false,
+  "FollowRedirects": false,
+  "Resolve": "",
+  "HTTPReqTimeOut": 3000000000,
+  "UserCredentials": "",
+  "ContentType": "",
+  "Payload": "",
+  "LogErrors": true,
+  "ID": 0,
+  "SequentialWarmup": false,
+  "Sizes": {
+    "Count": 1200,
+    "Min": 153,
+    "Max": 315,
+    "Sum": 186807,
+    "Avg": 155.6725,
+    "StdDev": 20.52876625006969,
+    "Data": [
+      {
+        "Start": 153,
+        "End": 200,
+        "Percent": 98.33333333333333,
+        "Count": 1180
+      },
+      {
+        "Start": 300,
+        "End": 315,
+        "Percent": 100,
+        "Count": 20
+      }
+    ],
+    "Percentiles": null
+  },
+  "HeaderSizes": {
+    "Count": 1200,
+    "Min": 0,
+    "Max": 0,
+    "Sum": 0,
+    "Avg": 0,
+    "StdDev": 0,
+    "Data": [
+      {
+        "Start": 0,
+        "End": 0,
+        "Percent": 100,
+        "Count": 1200
+      }
+    ],
+    "Percentiles": null
+  },
+  "SocketCount": 1204,
+  "AbortOn": 0
+}
