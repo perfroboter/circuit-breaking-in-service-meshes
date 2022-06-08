@@ -37,19 +37,25 @@ public class FacController {
 	
 	}
 	
+	/**
+	 * Throws Errors when Systemtime is beetween form and to. Othertimes it responses with normal behaviour.
+	 * @param num
+	 * @param isCB 
+	 * @param from
+	 * @param to
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping("/fac-with-config/{num}")
-	@Deprecated
-	//TODO: Funktioniert nur bei Replica = 1
-	//Example: /fac-with-config/5?isCB=true&consFails=2&successCalls=3
-	public String facWithConfig(@PathVariable long num, @RequestParam boolean isCB, @RequestParam long consFails , @RequestParam long successCalls) throws Exception {	
+	public String facWithConfig(@PathVariable long num, @RequestParam boolean isCB, @RequestParam long from , @RequestParam long to) throws Exception {	
 		if(isCB) {
-			if(isError(consFails,successCalls)) {
+			if(System.currentTimeMillis() > from && System.currentTimeMillis() < to) {
 				return throwErrorWithCB();
 			} else {
 				return facWithCB(num);
 			}
 		} else {
-			if(isError(consFails,successCalls)) {
+			if(System.currentTimeMillis() > from && System.currentTimeMillis() < to) {
 				return throwErrorWithoutCB();
 			} else {
 				return facWithoutCB(num);
@@ -57,19 +63,6 @@ public class FacController {
 		}
 	}
 	
-	@Deprecated
-	//TODO: Counter verzählt sich, um einen?
-	private synchronized boolean isError(long consFails, long successCalls) {
-		counter++;
-		if(counter <= successCalls) {
-			return false;
-		} else if (counter <= (successCalls + consFails)){
-			return true;
-		} else {
-			counter = 1;
-			return false;
-		}
-	}
 	
     @GetMapping("/throw-error-with-cb")
 	public String throwErrorWithCB() throws Exception {
