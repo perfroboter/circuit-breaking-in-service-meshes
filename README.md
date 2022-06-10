@@ -48,7 +48,12 @@ TODO: Kopieren aus Powerpoint
 Es steht eine Testsuite zur Verfügung, die verschiedene Tests gegen die drei Implementierung (kein Circuit-Breaker, R4J-Circuit-Breaker und Istio-Circuit-Breaker) laufen lässt.
 
 ### Testszenarien (A-E)
-TODO: Kopieren aus Excel
+- A: Normales Verhalten
+- B: Permanente überlast
+- C: Permanente Fehler
+- D: Transiente Fehler
+- E: Transiente Überlast
+Details siehe  Excel-Testplan
 
 
 ### Testausführung
@@ -70,7 +75,7 @@ bash tests/testsuite.sh run_fortio 1 "testing-httbin" "10" "1s" "http://httpbin:
 ```
 ### Testergebnisse
 Die Testergebnisse werden vom Fortio-Pod geladen und unter `tests/testresults` als Json abgelegt.
-Die Ergebnisse können auch über die Fortio-UI als Histogram betrachtet werden `10.102.109.95:8080/fortio/browse` (IP ggf. anpassen).
+Die Ergebnisse können auch über die Fortio-UI als Histogram betrachtet werden http://10.102.109.95:8080/fortio/browse (IP ggf. anpassen).
 
 ## Circuit-Breaker von Istio
 Es gibt zwei verschiedene Konfigurationen

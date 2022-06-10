@@ -1,12 +1,13 @@
 #!/bin/bash
 
-FORTIO_POD=" fortio-deploy-785f794c9b-5swj6"
+FORTIO_POD="fortio-deploy-79bcd44cbd-rsmjv"
 FORTIO_DOWNLOAD_URL="http://10.105.240.19:8080/fortio/data/"
 
 SERVICE_URL="http://springfactorialservice:8080"
 PATH_WITH_R4J_CB="/fac-with-cb/"
 PATH_WITHOUT_CB="/fac-without-cb/"
 PATH_FAC_WITH_CONFIG="/fac-with-config/"
+PATH_DELAY_WITH_CONFIG="/delay-with-config/"
 PATH_THROW_ERROR_WITH_CB="/throw-error-with-cb"
 PATH_THROW_EROR_WITHOUT_CB="/throw-error-without-cb"
 WORKLOADS=('5' '5000' '10000' '15000' '20000' '30000')
@@ -27,6 +28,14 @@ get_url_for_transient_errors() {
     TIME_FROM=$((TIME_IN_MILLIS+$1*1000))
     TIME_UNTIL=$((TIME_FROM+$2*1000))
     echo "${SERVICE_URL}${PATH_FAC_WITH_CONFIG}$4?isCB=$1&from=${TIME_FROM}&until=${TIME_UNTIL}"
+}
+
+get_url_for_transient_overload() {
+    #Parameter 1. isCB "true" / "false" 2. Seconds until errors 3. Duration of errors in secounds 4. WORKLOAD 5. DELAY
+    TIME_IN_MILLIS=$(($(date +%s%N)/1000000))
+    TIME_FROM=$((TIME_IN_MILLIS+$1*1000))
+    TIME_UNTIL=$((TIME_FROM+$2*1000))
+    echo "${SERVICE_URL}${PATH_DELAY_WITH_CONFIG}$4?isCB=$1&from=${TIME_FROM}&until=${TIME_UNTIL}&delay=$5"
 }
 
 run_test_in_fortio() {
@@ -112,8 +121,8 @@ testscenario_c() {
 testscenario_d1() {
     print_message "TESTSZENARIO D: Transiente Fehler"
     echo "Umsetzung mit Endpunkt /fac-with-config/"
-    #run_test_in_fortio 11 "d-without-cb" "10" "120s" $(get_url_for_transient_errors "false" 40 40 ${WORKLOADS[1]})
-    #sleep $SLEEPTIME
+    run_test_in_fortio 11 "d-without-cb" "10" "120s" $(get_url_for_transient_errors "false" 40 40 ${WORKLOADS[1]})
+    sleep $SLEEPTIME
     run_test_in_fortio 12 "d-with-r4j-cb" "10" "120s" $(get_url_for_transient_errors "true" 40 40 ${WORKLOADS[1]})
     kubectl apply -f istio-config/springfac-cb-errors.yaml
     sleep $SLEEPTIME
@@ -133,7 +142,7 @@ testscenario_d2() {
     kubectl delete -f istio-config/springfac-cb-errors.yaml
 }
 
-testscenario_e() {
+testscenario_e1() {
     print_message "TESTSZENARIO E: Transiente Überlast" ""
     echo "Prototypische Lösung: Zusammengesetzer Test"
     run_transient_test_in_fortio 14 "e-without-cb" "10" "40s" "${SERVICE_URL}${PATH_WITHOUT_CB}${WORKLOADS[1]}" "${SERVICE_URL}${PATH_WITHOUT_CB}${WORKLOADS[5]}"
@@ -144,6 +153,20 @@ testscenario_e() {
     run_transient_test_in_fortio 16 "e-with-istio-cb" "10" "40s" "${SERVICE_URL}${PATH_WITHOUT_CB}${WORKLOADS[1]}" "${SERVICE_URL}${PATH_WITHOUT_CB}${WORKLOADS[5]}"
     kubectl delete -f istio-config/springfac-cb-max-request.yaml
 }
+
+testscenario_e2() {
+    print_message "TESTSZENARIO E2: Transiente Überlast"
+    echo "Umsetzung mit Endpunkt /delay-with-config/"
+    run_test_in_fortio 14 "e-without-cb" "10" "120s" $(get_url_for_transient_overload "false" 40 40 ${WORKLOADS[0]} "200")
+    sleep $SLEEPTIME
+    run_test_in_fortio 15 "e-with-r4j-cb" "10" "120s" $(get_url_for_transient_overload "true" 40 40 ${WORKLOADS[0]} "200")
+    kubectl apply -f istio-config/springfac-cb-errors.yaml
+    sleep $SLEEPTIME
+    run_test_in_fortio 16 "e-with-istio-cb" "10" "120s" $(get_url_for_transient_overload "false" 40 40 ${WORKLOADS[0]} "200")
+    kubectl delete -f istio-config/springfac-cb-errors.yaml
+}
+
+echo $(get_url_for_transient_overload "false" 40 40 ${WORKLOADS[0]} "200")
 
 case "$1" in
   run_all)
@@ -156,7 +179,7 @@ case "$1" in
     sleep $SLEEPTIME
     testscenario_d1
     sleep $SLEEPTIME
-    testscenario_e
+    testscenario_e2
     sleep $SLEEPTIME
     print_message "END OF TESTSUITE" ""
     exit 0
@@ -178,7 +201,7 @@ case "$1" in
     exit 0
     ;;
   run_e)
-    testscenario_e
+    testscenario_e2
     exit 0
     ;;
   run_fortio)
