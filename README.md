@@ -1,30 +1,18 @@
 # Resilience comparison
 
-Vergleich der Implementierung von Timeouts, Retries und Circuit Breakern von Mircronaut, Istio etc. anhand eines simplen Prototyps
+Vergleich der Implementierung von Circuit-Breakern - Istio/Envoy und Spring/Resilience4J - anhand eines simplen Prototyps
 
-## Beispiel - Binominalkoeffizient und Fakultät
+## Beispiel: Fakultät
 
-Es stehen zwei Mircroservices in diesem simplen Prototyp zur Verfügung:
+Es steht ein Microservice (`springfactorialservice`):
+Der Service gibt entweder die Fakultät zu einer Zahl (HttpStatus: 200)oder eine Fehlermeldung (HttpStatus: 500 / 503) zurück.
 
-1. Binominalkoeffizient-Service (`micronautnCrService`):   
-Berechnet die Binominalkoeffizient aus zwei Parametern n und r (deutsch: n über k) unter Nutzung des Fakultäts-Service  
-Beispiel "6 aus 49": http://localhost:8081/ncr/49/6 bzw. http://micronautncrservice:8080/6
-2. Fakultäts-Service A (`micronautfactorialservice`):   
-Berechnet die Fakultät zu einem übergebenen Parameter  
-Beispiel: "6!": http://localhost:8080/fac/6 bzw. http://micronautfactorialservice:8080/6
-Zweiter Endpunkt: `/error` löst einen Internal Server Error aus
-3. Fakultäts-Service B (`springfactorialservice`):
-Berechnet die Fakultät zu einem übergebenen Parameter  
-Beispiel: "6!": http://localhost:8080/fac/6 bzw. http://springfactorialservice:8080/6
-Zweiter Endpunkt: `/error` löst einen Internal Server Error aus
-
-## Resilience-Funktionen von Istio
-- Circuit-Breaker in der Outlier-Detection-Konfiguration ist wie folgt aktivierbar: `kubectl apply -f istio-config/istio-cb-fac-error-detection.yaml`
-Der Funktionstest löst den Circuit-Breaker aus: `./tests/functional-tests/test-cb-istio-error-detection.sh` (zuvor den Test-Pod starten s.u.)
-
-## Resilience-Funktionen von Spring Cloud bzw. Resilience4J
-- Default-Konfiguration des Circuit-Breakers ist aktiv
-Der Funktionstest löst der Circuit-Breaker aus: `./tests/functional-tests/test-cb-spring-error-detection.sh` (zuvor den Test-Pod starten s.u.)
+Weitere Pods (werden teils auch direkt mit skaffold gestaret):
+- Fortio: Lasttest-Tool
+- Httpbin: Test-Webserver (simpler Http-Service)
+- Deprecated: Binominalkoeffizient-Service (`micronautnCrService`)
+- Deprecated: Fakultäts-Service 2 (`micronautfactorialservice`) 
+- Curl-Tester: Pod, aus dem Curl-Befehle abgesetzt werden können
 
 ## Microservices in Kubernetes Cluster starten
 
@@ -46,20 +34,57 @@ Vorraussetzungen:
 skaffold run
 # 4. Test-Pod starten und curl absetzten
 kubectl run -n default -it --rm --image=buildpack-deps:stretch-curl tester /bin/bash
-curl http://micronautfactorialservice:8080/fac/5 #Nutzt Service-Discovery von Kubernetes
+curl http://springfactorialservice:8080/fac-without/5 
 # 5. Cluster aufräumen und deployte Artefakte löschen
 skaffold delete
-# 6. Apply Circuit Breaker für micronautfactorialservice
-kubectl apply -f istio-config/istio-cb-fac-error-detection.yaml
-# 7. Show active DestinationRules
-kubectl get destinationrule
+
 ```
+
+## Nicht-funktionale Anforderungen 
+TODO: Kopieren aus Powerpoint
+
+## Testsuite
+
+Es steht eine Testsuite zur Verfügung, die verschiedene Tests gegen die drei Implementierung (kein Circuit-Breaker, R4J-Circuit-Breaker und Istio-Circuit-Breaker) laufen lässt.
+
+### Testszenarien (A-E)
+TODO: Kopieren aus Excel
+
+
+### Testausführung
+Die Testsuite lässt sich über wie folgt starten:
+Voraussetzungen:
+- aktueller Ordner ist Root-Pfad des Repos
+- die Konstanten im Testskript sind korrekt
+    - der Name des Fortio-Pods anpassen
+    - die IP des Fortio-Services anpassen
+    - Fortio-IP ist auch außerhalb des Clusters verfügbar (im seperaten Terminal `minikube tunnel` ausführen)
+
+```bash
+# Durchführung der gesamten Testsuite inkl. aller Szenarien
+bash tests/testsuite.sh run_all
+# Ausführung einzelner Szenarien
+bash tests/testsuite.sh run_e
+# Manelle Ausführung von Fortio
+bash tests/testsuite.sh run_fortio 1 "testing-httbin" "10" "1s" "http://httpbin:8000/get"
+```
+### Testergebnisse
+Die Testergebnisse werden vom Fortio-Pod geladen und unter `tests/testresults` als Json abgelegt.
+Die Ergebnisse können auch über die Fortio-UI als Histogram betrachtet werden `10.102.109.95:8080/fortio/browse` (IP ggf. anpassen).
+
+## Circuit-Breaker von Istio
+Es gibt zwei verschiedene Konfigurationen
+1. Fehler (5xx) erkennen mittels `Outlier-Detection` in `DestinationRule`  
+`kubectl apply -f istio-config/springfac-cb-errors.yaml`  
+2. Überlast erkennen durch `TrafficControl` in `VirtualService`  
+`kubectl apply -f istio-config/springfac-cb-max-request.yaml`  
+Hinweis: Diese Regel funktioniert noch nicht optimal.
+
+## Circuit-Breaker von Spring Cloud bzw. Resilience4J
+Im `springfactorialservice` ist eine Resilience4J-CB-Konfiguration aktiv. Für Details zum Aufrufe siehe Tests.
 
 ## Quellen:
 - Micronaut-Client-Example: https://guides.micronaut.io/latest/micronaut-http-client-gradle-java.html
 - Micronaut-Service-Example: https://guides.micronaut.io/latest/creating-your-first-micronaut-app-gradle-java.html
 - https://stackoverflow.com/questions/891031/is-there-a-method-that-calculates-a-factorial-in-java
 - Spring-Cloud: Spring-Cloud-Starter + Spring-Cloud-Samples Circuit Breaker
-
-# Lasttest
-siehe 'load-tests' (in Arbeit bzw. Überarbeitung)

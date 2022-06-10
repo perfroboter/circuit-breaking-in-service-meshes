@@ -19,6 +19,8 @@ build:
 deploy:
   kubectl:
     manifests:
-    - micronautncrservice/deployment.yaml
-    - micronautfactorialservice/deployment.yaml
+  #  - micronautncrservice/deployment.yaml
+  #  - micronautfactorialservice/deployment.yaml
     - springfactorialservice/deployment.yaml
+    - httpbin/deployment.yaml
+    - fortio/deployment.yaml

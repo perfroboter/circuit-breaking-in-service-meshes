@@ -17,13 +17,18 @@ public class FacController {
 	private static final String DELIBERATELY_EXCEPTION_MESSAGE = "Deliberately Exception (RuntimeException)";
 	private final  CircuitBreaker cb; 
 	
-	private static volatile long counter = 0;
 	
 	public FacController(CircuitBreakerFactory cbFactory) {
 		super();
 		this.cb = cbFactory.create("fac");
 	}
 	
+	/**
+	 * Berechnet die Fakultät zur übergebendenen Zahl.
+	 * Der Circuit-Breaker ist bei dieser Methode aktiviert. Im OPEN-Zustand wird im "Fallback" eine 503er Antwort ausgegeben.
+	 * @param num
+	 * @return Fakultät als Json-String
+	 */
 	@GetMapping("/fac-with-cb/{num}")
 	public String facWithCB(@PathVariable long num) {
 		return cb.run(() -> String.format("{\"result\"=%s}", factorial(BigInteger.valueOf(num)).toString()), (T) -> {throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);});
@@ -31,40 +36,16 @@ public class FacController {
 	
 	}
 	
-	@GetMapping("/fac-without-cb/{num}")
-	public String facWithoutCB(@PathVariable long num) {
-		return String.format("{\"result\"=%s}", factorial(BigInteger.valueOf(num)).toString());
-	
-	}
-	
 	/**
-	 * Throws Errors when Systemtime is beetween form and to. Othertimes it responses with normal behaviour.
-	 * @param num
-	 * @param isCB 
-	 * @param from
-	 * @param to
-	 * @return
+	 * Die Methode löst eine RuntimeException aus.
+	 * Hierbei ist der Circuit-Breaker aktiviert. Im CLOSED-Zustand, wird eine 500er Antwort ausgegeben. Im OPEN-Zustand, wird eine 503er Antwort ausgegeben.
+	 * 
+	 * Kommentar: Die Unterscheidung der Exception im "Fallback" ist notwendig, da R4J im OPEN-Zustand auch eine Exception (io.github.resilience4j.circuitbreaker.CallNotPermittedException) auslöst.
+	 * 
+	 * @return 
 	 * @throws Exception
 	 */
-	@GetMapping("/fac-with-config/{num}")
-	public String facWithConfig(@PathVariable long num, @RequestParam boolean isCB, @RequestParam long from , @RequestParam long to) throws Exception {	
-		if(isCB) {
-			if(System.currentTimeMillis() > from && System.currentTimeMillis() < to) {
-				return throwErrorWithCB();
-			} else {
-				return facWithCB(num);
-			}
-		} else {
-			if(System.currentTimeMillis() > from && System.currentTimeMillis() < to) {
-				return throwErrorWithoutCB();
-			} else {
-				return facWithoutCB(num);
-			}
-		}
-	}
-	
-	
-    @GetMapping("/throw-error-with-cb")
+	@GetMapping("/throw-error-with-cb")
 	public String throwErrorWithCB() throws Exception {
 		return cb.run(() -> {throw new RuntimeException(DELIBERATELY_EXCEPTION_MESSAGE);}, 
 				(T) -> {
@@ -76,11 +57,66 @@ public class FacController {
 				});
     }
 	
+	/**
+	 * Die Methode löst eine RuntimeException aus.
+	 * Der Circuit-Breaker ist hierbei nicht aktiviert.
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
     @GetMapping("/throw-error-without-cb")
    	public String throwErrorWithoutCB() throws Exception {
        	throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR); 
        }
-    
+	
+	/**
+	 * Berechnet die Fakultät zur übergebendenen Zahl.
+	 * Der Circuit-Breaker ist bei dieser Methode nicht aktiviert.
+	 * @param num
+	 * @return Fakultät als Json-String
+	 */
+	@GetMapping("/fac-without-cb/{num}")
+	public String facWithoutCB(@PathVariable long num) {
+		return String.format("{\"result\"=%s}", factorial(BigInteger.valueOf(num)).toString());
+	
+	}
+	
+	/**
+	 * Diese Methode ermöglicht ein zeitlich gesteuerte "FaultInjection".
+	 * Je nach akuteller Systemzeit werden entweder erfolgreiche oder nicht-erfolgreiche Antworten zurückgegeben.
+	 * 
+	 * @param num
+	 * @param isCB Angabe, ob Circuit-Breaker verwendet werden soll oder nicht
+	 * @param from Startzeitpunkt (Systemzeit in Millis), ab wann Exceptions (5xx) zurückgegeben werden
+	 * @param until Endzeitpunkt (Systemzeit in Millis), bis wann Exceptions (5xx) zurückgegeben werden
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping("/fac-with-config/{num}")
+	public String facWithConfig(@PathVariable long num, @RequestParam boolean isCB, @RequestParam long from , @RequestParam long until) throws Exception {	
+		if(isCB) {
+			if(System.currentTimeMillis() > from && System.currentTimeMillis() < until) {
+				return throwErrorWithCB();
+			} else {
+				return facWithCB(num);
+			}
+		} else {
+			if(System.currentTimeMillis() > from && System.currentTimeMillis() < until) {
+				return throwErrorWithoutCB();
+			} else {
+				return facWithoutCB(num);
+			}
+		}
+	}
+	
+	
+    /**
+     * Workload-Methode, die die Fakulät berechnet.
+     * Quelle: vgl. https://stackoverflow.com/a/7879559
+     * 
+     * @param number
+     * @return Fakultät n!
+     */
     private BigInteger factorial(BigInteger number) {
       	 BigInteger result = BigInteger.valueOf(1);
 

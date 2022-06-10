@@ -28,7 +28,7 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.SlidingWindowT
 
 @SpringBootApplication
 public class SpringfactorialApplication {
-	//see: https://github.com/spring-cloud-samples/spring-cloud-circuitbreaker-demo/tree/main/spring-cloud-circuitbreaker-demo-resilience4j/src/main/java/org/springframework/cloud/circuitbreaker/demo/resilience4jcircuitbreakerdemo
+	//vgl. https://github.com/spring-cloud-samples/spring-cloud-circuitbreaker-demo/tree/main/spring-cloud-circuitbreaker-demo-resilience4j/src/main/java/org/springframework/cloud/circuitbreaker/demo/resilience4jcircuitbreakerdemo
 	
 
 	public static void main(String[] args) {
