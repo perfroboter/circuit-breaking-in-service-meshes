@@ -1,7 +1,7 @@
 #!/bin/bash
 
-FORTIO_POD="fortio-deploy-7dcd84c469-nmbhj"
-FORTIO_DOWNLOAD_URL="http://10.102.109.95:8080/fortio/data/"
+FORTIO_POD=" fortio-deploy-785f794c9b-5swj6"
+FORTIO_DOWNLOAD_URL="http://10.105.240.19:8080/fortio/data/"
 
 SERVICE_URL="http://springfactorialservice:8080"
 PATH_WITH_R4J_CB="/fac-with-cb/"
@@ -11,7 +11,7 @@ PATH_THROW_ERROR_WITH_CB="/throw-error-with-cb"
 PATH_THROW_EROR_WITHOUT_CB="/throw-error-without-cb"
 WORKLOADS=('5' '5000' '10000' '15000' '20000' '30000')
 TESTRESULT_FOLDER="tests/testresults/"
-SLEEPTIME=70
+SLEEPTIME=35
 
 
 print_message() {
@@ -112,12 +112,12 @@ testscenario_c() {
 testscenario_d1() {
     print_message "TESTSZENARIO D: Transiente Fehler"
     echo "Umsetzung mit Endpunkt /fac-with-config/"
-    run_test_in_fortio 11 "d-without-cb" "10" "120s" $(get_url_for_transient_errors "false" 40 40 ${WORKLOADS[1]})
-    sleep $SLEEPTIME
-    run__test_in_fortio 12 "d-with-r4j-cb" "10" "120s" $(get_url_for_transient_errors "true" 40 40 ${WORKLOADS[1]})
+    #run_test_in_fortio 11 "d-without-cb" "10" "120s" $(get_url_for_transient_errors "false" 40 40 ${WORKLOADS[1]})
+    #sleep $SLEEPTIME
+    run_test_in_fortio 12 "d-with-r4j-cb" "10" "120s" $(get_url_for_transient_errors "true" 40 40 ${WORKLOADS[1]})
     kubectl apply -f istio-config/springfac-cb-errors.yaml
     sleep $SLEEPTIME
-    run__test_in_fortio 13 "d-with-istio-cb" "10" "120s" $(get_url_for_transient_errors "false" 40 40 ${WORKLOADS[1]})
+    run_test_in_fortio 13 "d-with-istio-cb" "10" "120s" $(get_url_for_transient_errors "false" 40 40 ${WORKLOADS[1]})
     kubectl delete -f istio-config/springfac-cb-errors.yaml
 }
 
