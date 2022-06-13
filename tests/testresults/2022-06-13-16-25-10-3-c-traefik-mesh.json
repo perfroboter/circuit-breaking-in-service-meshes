@@ -1,0 +1,271 @@
+{
+  "RunType": "HTTP",
+  "Labels": "c-traefik-mesh",
+  "StartTime": "2022-06-13T14:25:10.355668462Z",
+  "RequestedQPS": "10",
+  "RequestedDuration": "2m0s",
+  "ActualQPS": 9.999735226844,
+  "ActualDuration": 120003177362,
+  "NumThreads": 4,
+  "Version": "1.32.3",
+  "DurationHistogram": {
+    "Count": 1200,
+    "Min": 0.000420775,
+    "Max": 0.041759115,
+    "Sum": 1.575659268,
+    "Avg": 0.00131304939,
+    "StdDev": 0.001402966188742617,
+    "Data": [
+      {
+        "Start": 0.000420775,
+        "End": 0.001,
+        "Percent": 39.416666666666664,
+        "Count": 473
+      },
+      {
+        "Start": 0.001,
+        "End": 0.002,
+        "Percent": 92.58333333333333,
+        "Count": 638
+      },
+      {
+        "Start": 0.002,
+        "End": 0.003,
+        "Percent": 97.58333333333333,
+        "Count": 60
+      },
+      {
+        "Start": 0.003,
+        "End": 0.004,
+        "Percent": 98.25,
+        "Count": 8
+      },
+      {
+        "Start": 0.004,
+        "End": 0.005,
+        "Percent": 98.91666666666667,
+        "Count": 8
+      },
+      {
+        "Start": 0.005,
+        "End": 0.006,
+        "Percent": 99.5,
+        "Count": 7
+      },
+      {
+        "Start": 0.006,
+        "End": 0.007,
+        "Percent": 99.75,
+        "Count": 3
+      },
+      {
+        "Start": 0.009000000000000001,
+        "End": 0.01,
+        "Percent": 99.83333333333333,
+        "Count": 1
+      },
+      {
+        "Start": 0.011,
+        "End": 0.012,
+        "Percent": 99.91666666666667,
+        "Count": 1
+      },
+      {
+        "Start": 0.04,
+        "End": 0.041759115,
+        "Percent": 100,
+        "Count": 1
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 0.0011990595611285268
+      },
+      {
+        "Percentile": 75,
+        "Value": 0.0016692789968652038
+      },
+      {
+        "Percentile": 90,
+        "Value": 0.0019514106583072102
+      },
+      {
+        "Percentile": 99,
+        "Value": 0.005142857142857136
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 0.011800000000000034
+      }
+    ]
+  },
+  "ErrorsDurationHistogram": {
+    "Count": 1200,
+    "Min": 0.000420775,
+    "Max": 0.041759115,
+    "Sum": 1.575659268,
+    "Avg": 0.00131304939,
+    "StdDev": 0.001402966188742617,
+    "Data": [
+      {
+        "Start": 0.000420775,
+        "End": 0.001,
+        "Percent": 39.416666666666664,
+        "Count": 473
+      },
+      {
+        "Start": 0.001,
+        "End": 0.002,
+        "Percent": 92.58333333333333,
+        "Count": 638
+      },
+      {
+        "Start": 0.002,
+        "End": 0.003,
+        "Percent": 97.58333333333333,
+        "Count": 60
+      },
+      {
+        "Start": 0.003,
+        "End": 0.004,
+        "Percent": 98.25,
+        "Count": 8
+      },
+      {
+        "Start": 0.004,
+        "End": 0.005,
+        "Percent": 98.91666666666667,
+        "Count": 8
+      },
+      {
+        "Start": 0.005,
+        "End": 0.006,
+        "Percent": 99.5,
+        "Count": 7
+      },
+      {
+        "Start": 0.006,
+        "End": 0.007,
+        "Percent": 99.75,
+        "Count": 3
+      },
+      {
+        "Start": 0.009000000000000001,
+        "End": 0.01,
+        "Percent": 99.83333333333333,
+        "Count": 1
+      },
+      {
+        "Start": 0.011,
+        "End": 0.012,
+        "Percent": 99.91666666666667,
+        "Count": 1
+      },
+      {
+        "Start": 0.04,
+        "End": 0.041759115,
+        "Percent": 100,
+        "Count": 1
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 0.0011990595611285268
+      },
+      {
+        "Percentile": 75,
+        "Value": 0.0016692789968652038
+      },
+      {
+        "Percentile": 90,
+        "Value": 0.0019514106583072102
+      },
+      {
+        "Percentile": 99,
+        "Value": 0.005142857142857136
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 0.011800000000000034
+      }
+    ]
+  },
+  "Exactly": 0,
+  "Jitter": false,
+  "Uniform": false,
+  "NoCatchUp": false,
+  "RunID": 0,
+  "AccessLoggerInfo": "",
+  "RetCodes": {
+    "500": 12,
+    "503": 1188
+  },
+  "IPCountMap": {
+    "10.98.24.35:8080": 4
+  },
+  "Insecure": false,
+  "CACert": "",
+  "Cert": "",
+  "Key": "",
+  "UnixDomainSocket": "",
+  "URL": "http://springfactorialservice.default.traefik.mesh:8080/throw-error-without-cb",
+  "NumConnections": 1,
+  "Compression": false,
+  "DisableFastClient": false,
+  "HTTP10": false,
+  "DisableKeepAlive": false,
+  "AllowHalfClose": false,
+  "FollowRedirects": false,
+  "Resolve": "",
+  "HTTPReqTimeOut": 3000000000,
+  "UserCredentials": "",
+  "ContentType": "",
+  "Payload": "",
+  "LogErrors": true,
+  "ID": 0,
+  "SequentialWarmup": false,
+  "Sizes": {
+    "Count": 1200,
+    "Min": 153,
+    "Max": 269,
+    "Sum": 184937,
+    "Avg": 154.11416666666668,
+    "StdDev": 11.086679664003213,
+    "Data": [
+      {
+        "Start": 153,
+        "End": 200,
+        "Percent": 99,
+        "Count": 1188
+      },
+      {
+        "Start": 200,
+        "End": 269,
+        "Percent": 100,
+        "Count": 12
+      }
+    ],
+    "Percentiles": null
+  },
+  "HeaderSizes": {
+    "Count": 1200,
+    "Min": 0,
+    "Max": 0,
+    "Sum": 0,
+    "Avg": 0,
+    "StdDev": 0,
+    "Data": [
+      {
+        "Start": 0,
+        "End": 0,
+        "Percent": 100,
+        "Count": 1200
+      }
+    ],
+    "Percentiles": null
+  },
+  "SocketCount": 1204,
+  "AbortOn": 0
+}

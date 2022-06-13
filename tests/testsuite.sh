@@ -1,9 +1,10 @@
 #!/bin/bash
 
-FORTIO_POD="fortio-deploy-79bcd44cbd-rsmjv"
-FORTIO_DOWNLOAD_URL="http://10.105.240.19:8080/fortio/data/"
+FORTIO_POD="fortio-deploy-7659969cd8-24hfk"
+FORTIO_DOWNLOAD_URL="http://10.97.237.90:8080/fortio/data/"
 
 SERVICE_URL="http://springfactorialservice:8080"
+SERVICE_URL_TRAEFIK="http://springfactorialservice.default.traefik.mesh:8080"
 PATH_WITH_R4J_CB="/fac-with-cb/"
 PATH_WITHOUT_CB="/fac-without-cb/"
 PATH_FAC_WITH_CONFIG="/fac-with-config/"
@@ -35,16 +36,18 @@ get_url_for_transient_overload() {
     TIME_IN_MILLIS=$(($(date +%s%N)/1000000))
     TIME_FROM=$((TIME_IN_MILLIS+$1*1000))
     TIME_UNTIL=$((TIME_FROM+$2*1000))
-    echo "${SERVICE_URL}${PATH_DELAY_WITH_CONFIG}$4?isCB=$1&from=${TIME_FROM}&until=${TIME_UNTIL}&delay=$5"
+    #TODO: Wieder auf ursprungs-Service-URL ändern
+    echo "${SERVICE_URL_TRAEFIK}${PATH_DELAY_WITH_CONFIG}$4?isCB=$1&from=${TIME_FROM}&until=${TIME_UNTIL}&delay=$5"
 }
 
 run_test_in_fortio() {
    #Parameter: 1. Nummer, 2. Titel, 3. QPS, 4. Duration, 5. URL
+   #TODO: Comandline-Ausgabe wieder deaktivieren
    timestamp=$(date +%Y-%m-%d-%H-%M-%S)
    print_message "START TESTRUN $2" "No.: $1 Title: $2 Time: $timestamp"
    filename="$timestamp-$1-$2.json"
-   kubectl exec $FORTIO_POD -c fortio -- /usr/bin/fortio load -json $filename -qps $3 -t $4 -allow-initial-errors -labels "${2}" $5  >& /dev/null
-   curl "${FORTIO_DOWNLOAD_URL}${filename}" -o "${TESTRESULT_FOLDER}${filename}" >& /dev/null
+   kubectl exec $FORTIO_POD -c fortio -- /usr/bin/fortio load -json $filename -qps $3 -t $4 -allow-initial-errors -labels "${2}" $5 # >& /dev/null
+   curl "${FORTIO_DOWNLOAD_URL}${filename}" -o "${TESTRESULT_FOLDER}${filename}" #>& /dev/null
    echo "Json-Result saved to $filename" 
    print_message "END TESTRUN $1"
 }
@@ -166,7 +169,30 @@ testscenario_e2() {
     kubectl delete -f istio-config/springfac-cb-errors.yaml
 }
 
-echo $(get_url_for_transient_overload "false" 40 40 ${WORKLOADS[0]} "200")
+testscenario_traefik_mesh() {
+    print_message "Testsuite for Traefik Mesh" "Add Annoations manuelly"
+    print_message "TESTSZENARIO A: Normales Verhalten" "Normales Verhalten: keine Überlast, keine Fehler"
+    run_test_in_fortio 1 "a-traefik-mesh" "10" "120s" "${SERVICE_URL_TRAEFIK}${PATH_WITHOUT_CB}${WORKLOADS[1]}"
+    sleep $SLEEPTIME
+
+    print_message "TESTSZENARIO B: Permanente Überlast" "Permanente Überlast: konstant hoher Workload"
+    run_test_in_fortio 2 "b-traefik-mesh" "10" "120s" "${SERVICE_URL_TRAEFIK}${PATH_WITHOUT_CB}${WORKLOADS[5]}"
+    sleep $SLEEPTIME
+
+    print_message "TESTSZENARIO C: Permanente Fehler" "Dauerhafte Fehler, keine Überlast"
+    run_test_in_fortio 3 "c-traefik-mesh" "10" "120s" "${SERVICE_URL_TRAEFIK}${PATH_THROW_EROR_WITHOUT_CB}"
+    sleep $SLEEPTIME
+
+    print_message "TESTSZENARIO D: Transiente Fehler"
+    echo "Umsetzung mit Endpunkt /fac-with-config/"
+    run_test_in_fortio 4 "d-traefik-mesh" "10" "120s" $(get_url_for_transient_errors "false" 40 40 ${WORKLOADS[1]})
+
+    #TODO: Servie-URL in get_url-Funktion anpassen
+    print_message "TESTSZENARIO E2: Transiente Überlast"
+    echo "Umsetzung mit Endpunkt /delay-with-config/"
+    run_test_in_fortio 5 "e-traefik-mesh" "10" "120s" $(get_url_for_transient_overload "false" 40 40 ${WORKLOADS[0]} "200")
+    sleep $SLEEPTIME
+}
 
 case "$1" in
   run_all)
@@ -202,6 +228,12 @@ case "$1" in
     ;;
   run_e)
     testscenario_e2
+    exit 0
+    ;;
+  run_traefik)
+    #testscenario_traefik_mesh
+    run_test_in_fortio 4 "d-traefik-mesh" "10" "120s" $(get_url_for_transient_errors "false" 40 40 ${WORKLOADS[1]})
+
     exit 0
     ;;
   run_fortio)
