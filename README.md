@@ -91,6 +91,7 @@ Die Ergebnisse können auch über die Fortio-UI als Histogram betrachtet werden 
 
 #### Testdurchlauf
 - 1.Durchlauf in Traefik in Minikube mit Replicas=1: Start: Mi 15. Jun 12:40:11 CEST 2022
+- 2. Durchlauf in Istio in 2/3-Node-Kubernetes mit Replicas=1 (Fortio und Service auf verschiedenen knoten): Start: Mi 15. Jun 16:17 CEST 2022
 
 ## Circuit-Breaker von Istio
 Es gibt zwei verschiedene Konfigurationen

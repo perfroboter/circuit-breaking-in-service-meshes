@@ -1,7 +1,7 @@
 #!/bin/bash
 
 FORTIO_POD=$(kubectl get pods | grep -o "fortio-deploy[A-Za-z0-9-]*")
-FORTIO_DOWNLOAD_URL="http://$( kubectl get service fortio --template '{{.status.loadBalancer.ingress}}' | grep -o "[0-9.]*"):8080/fortio/data/"
+FORTIO_DOWNLOAD_URL="http://$( kubectl get service fortio --template '{{.status.loadBalancer.ingress}}' | grep -o "[0-9.]*"):8080/fortio/data/" #GET PORT OF Localhost
 
 SERVICE_URL_KUBERNETES="http://springfactorialservice:8080"
 SERVICE_URL_TRAEFIK="http://springfactorialservice.default.traefik.mesh:8080"
@@ -11,7 +11,7 @@ PATH_FAC_WITH_CONFIG="/fac-with-config/"
 PATH_DELAY_WITH_CONFIG="/delay-with-config/"
 PATH_THROW_ERROR_WITH_CB="/throw-error-with-cb"
 PATH_THROW_EROR_WITHOUT_CB="/throw-error-without-cb"
-QPS=10
+QPS=40
 DURATION=120
 OVERLOAD_DELAY=200
 WORKLOADS=('5' '5000' '10000' '15000' '20000' '30000')
