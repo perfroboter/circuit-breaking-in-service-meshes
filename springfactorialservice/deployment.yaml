@@ -36,7 +36,9 @@ spec:
     spec:
       containers:
       - name: springfactorialservice
-        image: springfactorialservice:latest
-        imagePullPolicy: Never
+        image: git.fh-muenster.de:4567/lv-grewe/mwi/fep/fep22/service-meshes/resilience-comparison/springfactorialservice
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
+      imagePullSecrets:
+      - name: regcred

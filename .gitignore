@@ -1,6 +1,6 @@
 dist/
 .DS_Store
-target/*
+target/
 .gradle/
 .idea/
 build/
