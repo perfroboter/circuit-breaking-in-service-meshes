@@ -1,6 +1,6 @@
 dist/
 .DS_Store
-target/
+target/*
 .gradle/
 .idea/
 build/
@@ -27,3 +27,5 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
+
+!/home/winfo/Schreibtisch/WORKSPACE/resilience-comparison/springfactorialservice/target/springfactorialservice-0.0.1-SNAPSHOT.jar
