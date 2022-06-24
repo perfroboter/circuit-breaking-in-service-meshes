@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: springfactorialservice
+#annotations:
+ #   mesh.traefik.io/circuit-breaker-expression: "ResponseCodeRatio(500, 600, 0, 600) > 0.20 || LatencyAtQuantileMS(50.0) > 200"
 spec:
   selector:
     app: springfactorialservice

@@ -55,6 +55,18 @@ Es steht eine Testsuite zur Verfügung, die verschiedene Tests gegen die drei Im
 - E: Transiente Überlast
 Details siehe  Excel-Testplan
 
+### Konfigurationsparameter
+- Circuit-Breaker-Implementierung: ohne CB, Istio-CB, R4J-CB, Traefik-CB
+    - Konfigurationen der CBs:
+        - Istio-CB: default (gibts ist ohne CB oder?), nur Fehlererkennung, nur Latenzerkennunng
+        - R4J: default, angepasste Fehler- und Latenzerkennung
+        - Traefik-CB: default, angepasste Fehler- und Latenzerkennung
+- Service-Mesh (Istio oder Traefik): ohne CB wird jeweils bei beiden durchgeführt
+- Kubernetes-Parameter:
+    - verwendete Replicas bzw. Nodes 
+- Eingangstraffik: QPS und Workload noch variieren?
+
+
 
 ### Testausführung
 Die Testsuite lässt sich über wie folgt starten:
@@ -76,6 +88,10 @@ bash tests/testsuite.sh run_fortio 1 "testing-httbin" "10" "1s" "http://httpbin:
 ### Testergebnisse
 Die Testergebnisse werden vom Fortio-Pod geladen und unter `tests/testresults` als Json abgelegt.
 Die Ergebnisse können auch über die Fortio-UI als Histogram betrachtet werden http://10.102.109.95:8080/fortio/browse (IP ggf. anpassen).
+
+#### Testdurchlauf
+- 1.Durchlauf in Traefik in Minikube mit Replicas=1: Start: Mi 15. Jun 12:40:11 CEST 2022
+- 2. Durchlauf in Istio in 2/3-Node-Kubernetes mit Replicas=1 (Fortio und Service auf verschiedenen knoten): Start: Mi 15. Jun 16:17 CEST 2022
 
 ## Circuit-Breaker von Istio
 Es gibt zwei verschiedene Konfigurationen
