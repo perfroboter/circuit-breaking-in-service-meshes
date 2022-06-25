@@ -2,9 +2,11 @@ package de.fhms.springfactorial;
 
 import java.math.BigInteger;
 
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +18,7 @@ public class FacController {
 
 	private static final String DELIBERATELY_EXCEPTION_MESSAGE = "Deliberately Exception (RuntimeException)";
 	private final CircuitBreaker cb;
+	private String result;
 
 	public FacController(CircuitBreakerFactory cbFactory) {
 		super();
@@ -30,14 +33,14 @@ public class FacController {
 	 * @param num
 	 * @return Fakultät als Json-String
 	 */
-	@GetMapping("/fac-with-cb/{num}")
+	@GetMapping(value="/fac-with-cb/{num}")
 	public String facWithCB(@PathVariable long num) {
-		return cb.run(() -> String.format("{\"result\"=%s}", factorial(BigInteger.valueOf(num)).toString()), (T) -> {
+		return cb.run(() -> {this.result = factorial(BigInteger.valueOf(num)).toString(); return result;}, (T) -> {
 			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);
 		});
 
 	}
-
+	
 	/**
 	 * Die Methode löst eine RuntimeException aus. Hierbei ist der Circuit-Breaker
 	 * aktiviert. Im CLOSED-Zustand, wird eine 500er Antwort ausgegeben. Im
@@ -82,7 +85,7 @@ public class FacController {
 	 * @param num
 	 * @return Fakultät als Json-String
 	 */
-	@GetMapping("/fac-without-cb/{num}")
+	@GetMapping(value="/fac-without-cb/{num}")
 	public String facWithoutCB(@PathVariable long num) {
 		return String.format("{\"result\"=%s}", factorial(BigInteger.valueOf(num)).toString());
 
@@ -156,6 +159,52 @@ public class FacController {
 
 		} else {
 			if (System.currentTimeMillis() > from && System.currentTimeMillis() < until) {
+				try {
+					Thread.sleep(delay);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			return String.format("{\"result\"=%s}", factorial(BigInteger.valueOf(num)).toString());
+
+		}
+	}
+	
+	@GetMapping("/sporadic-error-with-config/{num}")
+	public String sporadicErrorWithConfig(@PathVariable long num,@RequestParam boolean isCB,  @RequestParam double failureRate) throws Exception {
+		if (isCB) {
+			if (Math.random() < failureRate) {
+				return throwErrorWithCB();
+			} else {
+				return facWithCB(num);
+			}
+		} else {
+			if (Math.random() < failureRate) {
+				return throwErrorWithoutCB();
+			} else {
+				return facWithoutCB(num);
+			}
+		}
+	}
+	
+	@GetMapping("/sporadic-delay-with-config/{num}")
+	public String sporadicDelayWithConfig(@PathVariable long num,@RequestParam boolean isCB,  @RequestParam double failureRate,  @RequestParam long delay) throws Exception {
+		if (isCB) {
+			return cb.run(() -> {
+				if (Math.random() < failureRate) {
+					try {
+						Thread.sleep(delay);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				return String.format("{\"result\"=%s}", factorial(BigInteger.valueOf(num)).toString());
+			}, (T) -> {
+				throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);
+			});
+
+		} else {
+			if (Math.random() < failureRate) {
 				try {
 					Thread.sleep(delay);
 				} catch (Exception e) {
