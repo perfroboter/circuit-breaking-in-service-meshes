@@ -1,0 +1,1 @@
+LatencyAtQuantileMS(50.0) > 100
