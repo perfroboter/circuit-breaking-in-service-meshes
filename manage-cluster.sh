@@ -17,11 +17,17 @@ install_kubectl() {
 }
 
 install_minikube() {
-  echo "Start installing Kubectl..."
+  echo "Start installing Minkube..."
   echo "Downloading latest stable release of Minikube"
   curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
   echo "Installing Minikube"
   sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+  echo "Installation succesful: $(minikube version)"
+}
+
+install_minikube_macos() {
+  echo "Start installing Minikube..."
+  brew install minikube
   echo "Installation succesful: $(minikube version)"
 }
 
@@ -31,6 +37,15 @@ install_skaffold() {
   curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
   echo "Installing Skaffold"
   sudo install skaffold /usr/local/bin/ && rm skaffold
+  echo "Installation succesful: $(skaffold version)"
+}
+
+intall_skaffold_macos() {
+  echo "Start installing Skaffold..."
+  echo "Downloading latest stable release of Skaffold"
+  curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-darwin-amd64 && \
+  echo "Installing Skaffold"
+  sudo install skaffold /usr/local/bin/
   echo "Installation succesful: $(skaffold version)"
 }
 
@@ -57,6 +72,7 @@ install_istio() {
   echo "Don't delete the downloaded folder. This folder includes samples for activating istio features and tools."
 }
 
+
 start_istio() {
   echo "Installing Istio with demo-configuration"
   istioctl install --set profile=demo -y
@@ -75,8 +91,16 @@ case "$1" in
     install_minikube
     exit 0
     ;;
+  install-minikube-macos)
+    install_minikube_macos
+    exit 0
+    ;;
   install-skaffold)
     install_skaffold
+    exit 0
+    ;;
+  intall-skaffold-macos)
+    intall_skaffold_macos
     exit 0
     ;;
   start-minikube)

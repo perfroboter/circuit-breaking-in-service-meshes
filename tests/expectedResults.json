@@ -1,0 +1,35 @@
+{   "name":"Erwartetete Testergebnisse der Testsuite",
+    "desprcition":"10 QPS, 120 Sekunden, 1200 Request, Transienete Störungen für  40s",
+    "testcases": [
+        {
+            "name":"normal",
+            "description": "Noramles Verhalten - Positivtestfall",
+            "response-count": {"min":1200,"max":1200},
+            "RetCodes": {
+                "200": {"min":1200,"max":1200},
+                "500": {"min":0,"max":0},
+                "503": {"min":0,"max":0},
+                "Other": {"min":0,"max":0}
+              },
+            "Percentiles": {
+                "50": {"min":0,"max":0.1},
+                "90": {"min":0,"max":0.2}
+            }
+        },
+        {
+            "name":"perm-error",
+            "description": "Permanente Fehler",
+            "response-count": {"min":1200,"max":1200},
+            "RetCodes": {
+                "200": {"min":0,"max":0},
+                "500": {"min":0,"max":100, "__comment":"10 Sekunden (100 Anfragen) Erkennungszeit wird geduldet"}, 
+                "503": {"min":1000,"max":1200},
+                "Other": {"min":0,"max":0}
+              },
+            "Percentiles": {
+                "50": {"min":0,"max":0.1},
+                "90": {"min":0,"max": 0.2}
+            }
+        }
+    ] 
+}

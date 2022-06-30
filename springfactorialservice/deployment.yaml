@@ -2,8 +2,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: springfactorialservice
-#annotations:
- #   mesh.traefik.io/circuit-breaker-expression: "ResponseCodeRatio(500, 600, 0, 600) > 0.20 || LatencyAtQuantileMS(50.0) > 200"
 spec:
   selector:
     app: springfactorialservice
@@ -36,9 +34,7 @@ spec:
     spec:
       containers:
       - name: springfactorialservice
-        image: git.fh-muenster.de:4567/lv-grewe/mwi/fep/fep22/service-meshes/resilience-comparison/springfactorialservice
-        imagePullPolicy: Always
+        image: springfactorialservice:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 8080
-      imagePullSecrets:
-      - name: regcred

@@ -4,15 +4,24 @@ metadata:
   name: resillience-comparision
 build:
   artifacts:
-  - image: git.fh-muenster.de:4567/lv-grewe/mwi/fep/fep22/service-meshes/resilience-comparison/springfactorialservice
+  #- image: micronautfactorialservice
+  #  context: micronautfactorialservice
+  #  docker:
+  #    dockerfile: Dockerfile
+  #- image: micronautncrservice
+  #  context: micronautncrservice
+  #  docker:
+  #    dockerfile: Dockerfile
+  - image: springfactorialservice
     context: springfactorialservice
     docker:
       dockerfile: Dockerfile
-  local:
-    push: true
 deploy:
   kubectl:
     manifests:
+  #  - micronautncrservice/deployment.yaml
+  #  - micronautfactorialservice/deployment.yaml
     - springfactorialservice/deployment.yaml
     - httpbin/deployment.yaml
     - fortio/deployment.yaml
+
