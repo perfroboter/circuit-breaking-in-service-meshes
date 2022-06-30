@@ -3,7 +3,7 @@ SLEEPTIME=35
 
 tests_none() {
   # Testrun 1: Kein Circuit-Breaker im Istio-Service-Mesh
-  ./tests/testscript.sh "i-without-cb" false false
+  ./tests/testscript.sh "without-cb" false false
 }
 
 tests_r4j() {
@@ -30,7 +30,7 @@ tests_r4j() {
   skaffold delete
   skaffold run
   sleep $SLEEPTIME
-  ./tests/testscript.sh "r4j-nfa-4" false true
+  ./tests/testscript.sh "r4j-nfa-3" false true
 
   cp resilience-comparison/springfactorialservice/r4j-properties/4-r4j-90per-res-time.properties springfactorialservice/src/main/resources/application.properties
   skaffold delete
@@ -42,7 +42,7 @@ tests_r4j() {
   skaffold delete
   skaffold run
   sleep $SLEEPTIME
-  ./tests/testscript.sh "r4j-nfa-4" false true
+  ./tests/testscript.sh "r4j-nfa-all" false true
 }
 
 testsuite_in_istio() {

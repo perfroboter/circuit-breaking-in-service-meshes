@@ -11,9 +11,9 @@ PATH_FAC_WITH_CONFIG="/fac-with-config/"
 PATH_DELAY_WITH_CONFIG="/delay-with-config/"
 PATH_THROW_ERROR_WITH_CB="/throw-error-with-cb"
 PATH_THROW_EROR_WITHOUT_CB="/throw-error-without-cb"
-PATH_SPORADIC_ERROR="/sporadic-error-with-config"
-PATH_SPORADIC_DELAY="/sporadic-delay-with-config"
-QPS=40
+PATH_SPORADIC_ERROR="/sporadic-error-with-config/"
+PATH_SPORADIC_DELAY="/sporadic-delay-with-config/"
+QPS=10
 DURATION=120
 OVERLOAD_DELAY=200
 WORKLOADS=('5' '5000' '10000' '15000' '20000' '30000')
@@ -30,7 +30,7 @@ print_heading() {
 
 get_request_params() {
     #Parameter 1. isCB "true" / "false" 2. Seconds until errors 3. Duration of errors in secounds 4. DELAY
-    TIME_IN_MILLIS=$(($(date +%s%N)/1000000))
+    TIME_IN_MILLIS=$(($(gdate +%s%N)/1000000)) #Change to date in linux
     TIME_FROM=$((TIME_IN_MILLIS+$2*1000))
     TIME_UNTIL=$((TIME_FROM+$3*1000))
     TIME_DELAY=""
@@ -78,7 +78,7 @@ testprocedure_overload_delay=$OVERLOAD_DELAY
 testprocedure_trans_time=$(($DURATION/3))
 testprocedure_is_r4j_cb="false"
 testprocedure_t="${DURATION}s"
-testprocedure_sporadic_failure_rate=0.6
+testprocedure_sporadic_failure_rate="0.6"
 
 if [ "$2" = true ]
     then
@@ -89,11 +89,11 @@ if [ "$3" = true ]
     then
         testprocedure_is_r4j_cb="true"
         testprocedure_path_fac=$PATH_WITH_R4J_CB
-        testprocedure_path_error=$PATH_THROW_EROR_WITH_CB
+        testprocedure_path_error=$PATH_THROW_ERROR_WITH_CB
 fi
 
-testprocedure_sporadic_error_params="?isCB=${testprocedure_is_r4j_cb}&failureRate=${stprocedure_sporadic_failure_rate}"
-testprocedure_sporadic_overload_params="?isCB=${testprocedure_is_r4j_cb}&failureRate=${stprocedure_sporadic_failure_rate}&delay=${testprocedure_overload_delay}"
+testprocedure_sporadic_error_params="?isCB=${testprocedure_is_r4j_cb}&failureRate=${testprocedure_sporadic_failure_rate}"
+testprocedure_sporadic_overload_params="?isCB=${testprocedure_is_r4j_cb}&failureRate=${testprocedure_sporadic_failure_rate}&delay=${testprocedure_overload_delay}"
 
 ## Testfälle
 
@@ -109,13 +109,14 @@ sleep $SLEEPTIME
 # Transiente Fehler
 run_test_in_fortio "trans-error-${testprocedure_name}" $testprocedure_qps_normal $testprocedure_t "${testprocedure_service_url}${testprocedure_path_trans_error}${testprocedure_workload_normal}$(get_request_params $testprocedure_is_r4j_cb $testprocedure_trans_time $testprocedure_trans_time)"
 sleep $SLEEPTIME
-# Transiente Überlast 
+#Transiente Überlast 
 #TODO: Überlast wird nur durch Workload bzw. DELAY und nicht durch QPS
 run_test_in_fortio "trans-overload-${testprocedure_name}" $testprocedure_qps_normal $testprocedure_t "${testprocedure_service_url}${testprocedure_path_trans_overload}${testprocedure_workload_normal}$(get_request_params $testprocedure_is_r4j_cb $testprocedure_trans_time $testprocedure_trans_time $testprocedure_overload_delay)"
+sleep $SLEEPTIME
 # Sporadische Fehler
-run_test_in_fortio "spor-error-${testprocedure_name}" $testprocedure_qps_normal $testprocedure_t "${testprocedure_service_url}${testprocedure_path_sporadic_error}${testprocedure_workload_normal}?"
+run_test_in_fortio "spor-error-${testprocedure_name}" $testprocedure_qps_normal $testprocedure_t "${testprocedure_service_url}${testprocedure_path_sporadic_error}${testprocedure_workload_normal}${testprocedure_sporadic_error_params}"
 sleep $SLEEPTIME
 # Sporadische Überlast 
 #TODO: Überlast wird nur durch Workload bzw. DELAY und nicht durch QPS
-run_test_in_fortio "spor-overload-${testprocedure_name}" $testprocedure_qps_normal $testprocedure_t "${testprocedure_service_url}${testprocedure_path_trans_overload}${testprocedure_workload_normal}$(get_request_params $testprocedure_is_r4j_cb $testprocedure_trans_time $testprocedure_trans_time $testprocedure_overload_delay)"
+run_test_in_fortio "spor-overload-${testprocedure_name}" $testprocedure_qps_normal $testprocedure_t "${testprocedure_service_url}${testprocedure_path_sporadic_overload}${testprocedure_workload_normal}${testprocedure_sporadic_overload_params}"
 sleep $SLEEPTIME
