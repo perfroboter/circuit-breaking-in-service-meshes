@@ -1,0 +1,212 @@
+{
+  "RunType": "HTTP",
+  "Labels": "a2-with-istio-cb-max-requests",
+  "StartTime": "2022-06-08T13:11:26.166321383Z",
+  "RequestedQPS": "10",
+  "RequestedDuration": "2m0s",
+  "ActualQPS": 9.99857444683249,
+  "ActualDuration": 120017109077,
+  "NumThreads": 4,
+  "Version": "1.27.0",
+  "DurationHistogram": {
+    "Count": 1200,
+    "Min": 0.000713443,
+    "Max": 0.031425452,
+    "Sum": 11.331832175999999,
+    "Avg": 0.009443193479999999,
+    "StdDev": 0.007728287007139874,
+    "Data": [
+      {
+        "Start": 0.000713443,
+        "End": 0.001,
+        "Percent": 5.75,
+        "Count": 69
+      },
+      {
+        "Start": 0.001,
+        "End": 0.002,
+        "Percent": 33.416666666666664,
+        "Count": 332
+      },
+      {
+        "Start": 0.002,
+        "End": 0.003,
+        "Percent": 43.166666666666664,
+        "Count": 117
+      },
+      {
+        "Start": 0.003,
+        "End": 0.004,
+        "Percent": 46.916666666666664,
+        "Count": 45
+      },
+      {
+        "Start": 0.004,
+        "End": 0.005,
+        "Percent": 48.583333333333336,
+        "Count": 20
+      },
+      {
+        "Start": 0.005,
+        "End": 0.006,
+        "Percent": 49.583333333333336,
+        "Count": 12
+      },
+      {
+        "Start": 0.006,
+        "End": 0.007,
+        "Percent": 49.833333333333336,
+        "Count": 3
+      },
+      {
+        "Start": 0.01,
+        "End": 0.011,
+        "Percent": 50,
+        "Count": 2
+      },
+      {
+        "Start": 0.012,
+        "End": 0.014,
+        "Percent": 50.25,
+        "Count": 3
+      },
+      {
+        "Start": 0.014,
+        "End": 0.016,
+        "Percent": 68.08333333333333,
+        "Count": 214
+      },
+      {
+        "Start": 0.016,
+        "End": 0.018000000000000002,
+        "Percent": 90.25,
+        "Count": 266
+      },
+      {
+        "Start": 0.018000000000000002,
+        "End": 0.02,
+        "Percent": 95.91666666666667,
+        "Count": 68
+      },
+      {
+        "Start": 0.02,
+        "End": 0.025,
+        "Percent": 98.91666666666667,
+        "Count": 36
+      },
+      {
+        "Start": 0.025,
+        "End": 0.03,
+        "Percent": 99.91666666666667,
+        "Count": 12
+      },
+      {
+        "Start": 0.03,
+        "End": 0.031425452,
+        "Percent": 100,
+        "Count": 1
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 0.011
+      },
+      {
+        "Percentile": 75,
+        "Value": 0.01662406015037594
+      },
+      {
+        "Percentile": 90,
+        "Value": 0.017977443609022557
+      },
+      {
+        "Percentile": 99,
+        "Value": 0.025416666666666643
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 0.02991666666666667
+      }
+    ]
+  },
+  "Exactly": 0,
+  "Jitter": false,
+  "Uniform": false,
+  "NoCatchUp": false,
+  "RunID": 0,
+  "AccessLoggerInfo": "",
+  "RetCodes": {
+    "200": 600,
+    "503": 600
+  },
+  "Insecure": false,
+  "CACert": "",
+  "Cert": "",
+  "Key": "",
+  "UnixDomainSocket": "",
+  "URL": "http://springfactorialservice:8080/fac-without-cb/5000",
+  "NumConnections": 1,
+  "Compression": false,
+  "DisableFastClient": false,
+  "HTTP10": false,
+  "DisableKeepAlive": false,
+  "AllowHalfClose": false,
+  "FollowRedirects": false,
+  "Resolve": "",
+  "HTTPReqTimeOut": 3000000000,
+  "UserCredentials": "",
+  "ContentType": "",
+  "Payload": "",
+  "LogErrors": true,
+  "ID": 0,
+  "SequentialWarmup": false,
+  "Sizes": {
+    "Count": 1200,
+    "Min": 241,
+    "Max": 16506,
+    "Sum": 10048200,
+    "Avg": 8373.5,
+    "StdDev": 8132.5,
+    "Data": [
+      {
+        "Start": 241,
+        "End": 300,
+        "Percent": 50,
+        "Count": 600
+      },
+      {
+        "Start": 16000,
+        "End": 16506,
+        "Percent": 100,
+        "Count": 600
+      }
+    ],
+    "Percentiles": null
+  },
+  "HeaderSizes": {
+    "Count": 1200,
+    "Min": 0,
+    "Max": 169,
+    "Sum": 101400,
+    "Avg": 84.5,
+    "StdDev": 84.5,
+    "Data": [
+      {
+        "Start": 0,
+        "End": 0,
+        "Percent": 50,
+        "Count": 600
+      },
+      {
+        "Start": 150,
+        "End": 169,
+        "Percent": 100,
+        "Count": 600
+      }
+    ],
+    "Percentiles": null
+  },
+  "SocketCount": 604,
+  "AbortOn": 0
+}

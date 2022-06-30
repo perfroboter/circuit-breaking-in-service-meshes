@@ -1,0 +1,295 @@
+{
+  "RunType": "HTTP",
+  "Labels": "perm-overload-t-with-config-traefik-cb",
+  "StartTime": "2022-06-15T09:58:43.024998534Z",
+  "RequestedQPS": "10",
+  "RequestedDuration": "2m0s",
+  "ActualQPS": 9.999849761340533,
+  "ActualDuration": 120001802891,
+  "NumThreads": 4,
+  "Version": "1.32.3",
+  "DurationHistogram": {
+    "Count": 1200,
+    "Min": 0.000268804,
+    "Max": 0.502764498,
+    "Sum": 10.365789718000002,
+    "Avg": 0.008638158098333334,
+    "StdDev": 0.05771230444751689,
+    "Data": [
+      {
+        "Start": 0.000268804,
+        "End": 0.001,
+        "Percent": 38.083333333333336,
+        "Count": 457
+      },
+      {
+        "Start": 0.001,
+        "End": 0.002,
+        "Percent": 88.25,
+        "Count": 602
+      },
+      {
+        "Start": 0.002,
+        "End": 0.003,
+        "Percent": 94.5,
+        "Count": 75
+      },
+      {
+        "Start": 0.003,
+        "End": 0.004,
+        "Percent": 96.58333333333333,
+        "Count": 25
+      },
+      {
+        "Start": 0.004,
+        "End": 0.005,
+        "Percent": 97.25,
+        "Count": 8
+      },
+      {
+        "Start": 0.005,
+        "End": 0.006,
+        "Percent": 97.41666666666667,
+        "Count": 2
+      },
+      {
+        "Start": 0.006,
+        "End": 0.007,
+        "Percent": 98,
+        "Count": 7
+      },
+      {
+        "Start": 0.007,
+        "End": 0.008,
+        "Percent": 98.25,
+        "Count": 3
+      },
+      {
+        "Start": 0.012,
+        "End": 0.014,
+        "Percent": 98.33333333333333,
+        "Count": 1
+      },
+      {
+        "Start": 0.014,
+        "End": 0.016,
+        "Percent": 98.41666666666667,
+        "Count": 1
+      },
+      {
+        "Start": 0.4,
+        "End": 0.45,
+        "Percent": 99.08333333333333,
+        "Count": 8
+      },
+      {
+        "Start": 0.45,
+        "End": 0.5,
+        "Percent": 99.91666666666667,
+        "Count": 10
+      },
+      {
+        "Start": 0.5,
+        "End": 0.502764498,
+        "Percent": 100,
+        "Count": 1
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 0.0012375415282392026
+      },
+      {
+        "Percentile": 75,
+        "Value": 0.0017358803986710963
+      },
+      {
+        "Percentile": 90,
+        "Value": 0.00228
+      },
+      {
+        "Percentile": 99,
+        "Value": 0.44375000000000026
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 0.49900000000000005
+      }
+    ]
+  },
+  "ErrorsDurationHistogram": {
+    "Count": 1181,
+    "Min": 0.000268804,
+    "Max": 0.015387614,
+    "Sum": 1.5691959659999999,
+    "Avg": 0.0013287010719729043,
+    "StdDev": 0.0009564144247667182,
+    "Data": [
+      {
+        "Start": 0.000268804,
+        "End": 0.001,
+        "Percent": 38.69602032176122,
+        "Count": 457
+      },
+      {
+        "Start": 0.001,
+        "End": 0.002,
+        "Percent": 89.66977138018628,
+        "Count": 602
+      },
+      {
+        "Start": 0.002,
+        "End": 0.003,
+        "Percent": 96.02032176121931,
+        "Count": 75
+      },
+      {
+        "Start": 0.003,
+        "End": 0.004,
+        "Percent": 98.13717188823031,
+        "Count": 25
+      },
+      {
+        "Start": 0.004,
+        "End": 0.005,
+        "Percent": 98.81456392887384,
+        "Count": 8
+      },
+      {
+        "Start": 0.005,
+        "End": 0.006,
+        "Percent": 98.98391193903471,
+        "Count": 2
+      },
+      {
+        "Start": 0.006,
+        "End": 0.007,
+        "Percent": 99.5766299745978,
+        "Count": 7
+      },
+      {
+        "Start": 0.007,
+        "End": 0.008,
+        "Percent": 99.83065198983913,
+        "Count": 3
+      },
+      {
+        "Start": 0.012,
+        "End": 0.014,
+        "Percent": 99.91532599491956,
+        "Count": 1
+      },
+      {
+        "Start": 0.014,
+        "End": 0.015387614,
+        "Percent": 100,
+        "Count": 1
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 0.0012217607973421928
+      },
+      {
+        "Percentile": 75,
+        "Value": 0.0017122093023255816
+      },
+      {
+        "Percentile": 90,
+        "Value": 0.002052000000000001
+      },
+      {
+        "Percentile": 99,
+        "Value": 0.006027142857142865
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 0.013638000000000183
+      }
+    ]
+  },
+  "Exactly": 0,
+  "Jitter": false,
+  "Uniform": false,
+  "NoCatchUp": false,
+  "RunID": 0,
+  "AccessLoggerInfo": "",
+  "RetCodes": {
+    "200": 19,
+    "503": 1181
+  },
+  "IPCountMap": {
+    "10.103.19.179:8080": 4
+  },
+  "Insecure": false,
+  "CACert": "",
+  "Cert": "",
+  "Key": "",
+  "UnixDomainSocket": "",
+  "URL": "http://springfactorialservice.default.traefik.mesh:8080/fac-without-cb/30000",
+  "NumConnections": 1,
+  "Compression": false,
+  "DisableFastClient": false,
+  "HTTP10": false,
+  "DisableKeepAlive": false,
+  "AllowHalfClose": false,
+  "FollowRedirects": false,
+  "Resolve": "",
+  "HTTPReqTimeOut": 3000000000,
+  "UserCredentials": "",
+  "ContentType": "",
+  "Payload": "",
+  "LogErrors": true,
+  "ID": 0,
+  "SequentialWarmup": false,
+  "Sizes": {
+    "Count": 1200,
+    "Min": 153,
+    "Max": 121419,
+    "Sum": 2487654,
+    "Avg": 2073.045,
+    "StdDev": 15137.688204213186,
+    "Data": [
+      {
+        "Start": 153,
+        "End": 200,
+        "Percent": 98.41666666666667,
+        "Count": 1181
+      },
+      {
+        "Start": 100000,
+        "End": 121419,
+        "Percent": 100,
+        "Count": 19
+      }
+    ],
+    "Percentiles": null
+  },
+  "HeaderSizes": {
+    "Count": 1200,
+    "Min": 0,
+    "Max": 120,
+    "Sum": 2280,
+    "Avg": 1.9,
+    "StdDev": 14.979652866471906,
+    "Data": [
+      {
+        "Start": 0,
+        "End": 0,
+        "Percent": 98.41666666666667,
+        "Count": 1181
+      },
+      {
+        "Start": 100,
+        "End": 120,
+        "Percent": 100,
+        "Count": 19
+      }
+    ],
+    "Percentiles": null
+  },
+  "SocketCount": 1185,
+  "AbortOn": 0
+}

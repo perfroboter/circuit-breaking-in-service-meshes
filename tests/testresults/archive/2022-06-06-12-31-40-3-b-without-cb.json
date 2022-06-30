@@ -1,0 +1,133 @@
+{
+  "RunType": "HTTP",
+  "Labels": "springfactorialservice:8080/fac-without-cb/30000 , fortio-deploy-7dcd84c469-nmbhj",
+  "StartTime": "2022-06-06T10:31:42.470155363Z",
+  "RequestedQPS": "10",
+  "RequestedDuration": "2m0s",
+  "ActualQPS": 3.877579786605674,
+  "ActualDuration": 120435948633,
+  "NumThreads": 4,
+  "Version": "1.27.0",
+  "DurationHistogram": {
+    "Count": 467,
+    "Min": 0.597175187,
+    "Max": 1.3947218989999999,
+    "Sum": 480.80466917399986,
+    "Avg": 1.0295603194304066,
+    "StdDev": 0.08687188982874335,
+    "Data": [
+      {
+        "Start": 0.597175187,
+        "End": 0.6,
+        "Percent": 0.21413276231263384,
+        "Count": 1
+      },
+      {
+        "Start": 0.8,
+        "End": 0.9,
+        "Percent": 2.78372591006424,
+        "Count": 12
+      },
+      {
+        "Start": 0.9,
+        "End": 1,
+        "Percent": 38.11563169164882,
+        "Count": 165
+      },
+      {
+        "Start": 1,
+        "End": 1.3947218989999999,
+        "Percent": 100,
+        "Count": 289
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 1.0758029944446366
+      },
+      {
+        "Percentile": 75,
+        "Value": 1.2352624467223183
+      },
+      {
+        "Percentile": 90,
+        "Value": 1.3309381180889273
+      },
+      {
+        "Percentile": 99,
+        "Value": 1.3883435209088926
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 1.3940840611908891
+      }
+    ]
+  },
+  "Exactly": 0,
+  "Jitter": false,
+  "Uniform": false,
+  "NoCatchUp": false,
+  "RunID": 0,
+  "AccessLoggerInfo": "",
+  "RetCodes": {
+    "200": 467
+  },
+  "Insecure": false,
+  "CACert": "",
+  "Cert": "",
+  "Key": "",
+  "UnixDomainSocket": "",
+  "URL": "http://springfactorialservice:8080/fac-without-cb/30000",
+  "NumConnections": 1,
+  "Compression": false,
+  "DisableFastClient": false,
+  "HTTP10": false,
+  "DisableKeepAlive": false,
+  "AllowHalfClose": false,
+  "FollowRedirects": false,
+  "Resolve": "",
+  "HTTPReqTimeOut": 3000000000,
+  "UserCredentials": "",
+  "ContentType": "",
+  "Payload": "",
+  "LogErrors": true,
+  "ID": 0,
+  "SequentialWarmup": false,
+  "Sizes": {
+    "Count": 467,
+    "Min": 121470,
+    "Max": 121471,
+    "Sum": 56726767,
+    "Avg": 121470.5931477516,
+    "StdDev": 0.49124724841354156,
+    "Data": [
+      {
+        "Start": 121470,
+        "End": 121471,
+        "Percent": 100,
+        "Count": 467
+      }
+    ],
+    "Percentiles": null
+  },
+  "HeaderSizes": {
+    "Count": 467,
+    "Min": 171,
+    "Max": 172,
+    "Sum": 80134,
+    "Avg": 171.59314775160598,
+    "StdDev": 0.4912468792497236,
+    "Data": [
+      {
+        "Start": 171,
+        "End": 172,
+        "Percent": 100,
+        "Count": 467
+      }
+    ],
+    "Percentiles": null
+  },
+  "SocketCount": 4,
+  "AbortOn": 0
+}
