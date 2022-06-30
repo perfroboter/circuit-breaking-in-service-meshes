@@ -1,0 +1,6 @@
+winfo@stud-fb09-643:~/resilience-comparison$ skaffold run
+Generating tags...
+ - git.fh-muenster.de:4567/lv-grewe/mwi/fep/fep22/service-meshes/resilience-comparison/springfactorialservice -> git.fh-muenster.de:4567/lv-grewe/mwi/fep/fep22/service-meshes/resilience-comparison/springfactorialservice:4dcba21-dirty
+Checking cache...
+ - git.fh-muenster.de:4567/lv-grewe/mwi/fep/fep22/service-meshes/resilience-comparison/springfactorialservice: Error checking cache.
+getting hash for artifact "git.fh-muenster.de:4567/lv-grewe/mwi/fep/fep22/service-meshes/resilience-comparison/springfactorialservice": getting dependencies for "git.fh-muenster.de:4567/lv-grewe/mwi/fep/fep22/service-meshes/resilience-comparison/springfactorialservice": parsing ONBUILD instructions: retrieving image "openjdk:11": Get "https://index.docker.io/v2/": dial tcp 52.87.84.72:443: i/o timeout
