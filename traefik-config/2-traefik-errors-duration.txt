@@ -1,1 +1,1 @@
-ResponseCodeRatio(500, 600, 0, 600) > 0.5
+mesh.traefik.io/circuit-breaker-expression="ResponseCodeRatio(500, 600, 0, 600) > 0.5"

@@ -1,0 +1,497 @@
+{
+  "RunType": "HTTP",
+  "Labels": "spor-overload-t-traefik-4-90-res",
+  "StartTime": "2022-07-04T16:27:08.944302823Z",
+  "RequestedQPS": "10",
+  "RequestedDuration": "2m0s",
+  "ActualQPS": 9.998801410678857,
+  "ActualDuration": 120014384796,
+  "NumThreads": 4,
+  "Version": "1.34.1",
+  "DurationHistogram": {
+    "Count": 1200,
+    "Min": 0.000514569,
+    "Max": 0.714003509,
+    "Sum": 26.316809442000004,
+    "Avg": 0.021930674535000003,
+    "StdDev": 0.06101001738210932,
+    "Data": [
+      {
+        "Start": 0.000514569,
+        "End": 0.001,
+        "Percent": 2.1666666666666665,
+        "Count": 26
+      },
+      {
+        "Start": 0.001,
+        "End": 0.002,
+        "Percent": 12,
+        "Count": 118
+      },
+      {
+        "Start": 0.002,
+        "End": 0.003,
+        "Percent": 21.916666666666668,
+        "Count": 119
+      },
+      {
+        "Start": 0.003,
+        "End": 0.004,
+        "Percent": 30.833333333333332,
+        "Count": 107
+      },
+      {
+        "Start": 0.004,
+        "End": 0.005,
+        "Percent": 39.583333333333336,
+        "Count": 105
+      },
+      {
+        "Start": 0.005,
+        "End": 0.006,
+        "Percent": 47.916666666666664,
+        "Count": 100
+      },
+      {
+        "Start": 0.006,
+        "End": 0.007,
+        "Percent": 57.083333333333336,
+        "Count": 110
+      },
+      {
+        "Start": 0.007,
+        "End": 0.008,
+        "Percent": 64.08333333333333,
+        "Count": 84
+      },
+      {
+        "Start": 0.008,
+        "End": 0.009000000000000001,
+        "Percent": 70.25,
+        "Count": 74
+      },
+      {
+        "Start": 0.009000000000000001,
+        "End": 0.01,
+        "Percent": 75.08333333333333,
+        "Count": 58
+      },
+      {
+        "Start": 0.01,
+        "End": 0.011,
+        "Percent": 79.58333333333333,
+        "Count": 54
+      },
+      {
+        "Start": 0.011,
+        "End": 0.012,
+        "Percent": 83.33333333333333,
+        "Count": 45
+      },
+      {
+        "Start": 0.012,
+        "End": 0.014,
+        "Percent": 87.16666666666667,
+        "Count": 46
+      },
+      {
+        "Start": 0.014,
+        "End": 0.016,
+        "Percent": 88.41666666666667,
+        "Count": 15
+      },
+      {
+        "Start": 0.016,
+        "End": 0.018000000000000002,
+        "Percent": 89.08333333333333,
+        "Count": 8
+      },
+      {
+        "Start": 0.018000000000000002,
+        "End": 0.02,
+        "Percent": 89.75,
+        "Count": 8
+      },
+      {
+        "Start": 0.02,
+        "End": 0.025,
+        "Percent": 90.75,
+        "Count": 12
+      },
+      {
+        "Start": 0.025,
+        "End": 0.03,
+        "Percent": 91.66666666666667,
+        "Count": 11
+      },
+      {
+        "Start": 0.03,
+        "End": 0.035,
+        "Percent": 92.25,
+        "Count": 7
+      },
+      {
+        "Start": 0.035,
+        "End": 0.04,
+        "Percent": 93.08333333333333,
+        "Count": 10
+      },
+      {
+        "Start": 0.04,
+        "End": 0.045,
+        "Percent": 93.16666666666667,
+        "Count": 1
+      },
+      {
+        "Start": 0.045,
+        "End": 0.05,
+        "Percent": 93.33333333333333,
+        "Count": 2
+      },
+      {
+        "Start": 0.05,
+        "End": 0.06,
+        "Percent": 93.66666666666667,
+        "Count": 4
+      },
+      {
+        "Start": 0.06,
+        "End": 0.07,
+        "Percent": 94.08333333333333,
+        "Count": 5
+      },
+      {
+        "Start": 0.09,
+        "End": 0.1,
+        "Percent": 94.33333333333333,
+        "Count": 3
+      },
+      {
+        "Start": 0.14,
+        "End": 0.16,
+        "Percent": 94.41666666666667,
+        "Count": 1
+      },
+      {
+        "Start": 0.2,
+        "End": 0.25,
+        "Percent": 98.16666666666667,
+        "Count": 45
+      },
+      {
+        "Start": 0.25,
+        "End": 0.3,
+        "Percent": 99.16666666666667,
+        "Count": 12
+      },
+      {
+        "Start": 0.3,
+        "End": 0.35000000000000003,
+        "Percent": 99.66666666666667,
+        "Count": 6
+      },
+      {
+        "Start": 0.35000000000000003,
+        "End": 0.4,
+        "Percent": 99.83333333333333,
+        "Count": 2
+      },
+      {
+        "Start": 0.45,
+        "End": 0.5,
+        "Percent": 99.91666666666667,
+        "Count": 1
+      },
+      {
+        "Start": 0.7000000000000001,
+        "End": 0.714003509,
+        "Percent": 100,
+        "Count": 1
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 0.006227272727272727
+      },
+      {
+        "Percentile": 75,
+        "Value": 0.009982758620689657
+      },
+      {
+        "Percentile": 90,
+        "Value": 0.02125
+      },
+      {
+        "Percentile": 99,
+        "Value": 0.2916666666666664
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 0.4900000000000017
+      }
+    ]
+  },
+  "ErrorsDurationHistogram": {
+    "Count": 1106,
+    "Min": 0.000514569,
+    "Max": 0.254076845,
+    "Sum": 7.955517633999999,
+    "Avg": 0.007193053918625677,
+    "StdDev": 0.009994300290675709,
+    "Data": [
+      {
+        "Start": 0.000514569,
+        "End": 0.001,
+        "Percent": 2.3508137432188065,
+        "Count": 26
+      },
+      {
+        "Start": 0.001,
+        "End": 0.002,
+        "Percent": 13.019891500904158,
+        "Count": 118
+      },
+      {
+        "Start": 0.002,
+        "End": 0.003,
+        "Percent": 23.779385171790235,
+        "Count": 119
+      },
+      {
+        "Start": 0.003,
+        "End": 0.004,
+        "Percent": 33.45388788426763,
+        "Count": 107
+      },
+      {
+        "Start": 0.004,
+        "End": 0.005,
+        "Percent": 42.94755877034358,
+        "Count": 105
+      },
+      {
+        "Start": 0.005,
+        "End": 0.006,
+        "Percent": 51.98915009041591,
+        "Count": 100
+      },
+      {
+        "Start": 0.006,
+        "End": 0.007,
+        "Percent": 61.93490054249548,
+        "Count": 110
+      },
+      {
+        "Start": 0.007,
+        "End": 0.008,
+        "Percent": 69.52983725135624,
+        "Count": 84
+      },
+      {
+        "Start": 0.008,
+        "End": 0.009000000000000001,
+        "Percent": 76.22061482820976,
+        "Count": 74
+      },
+      {
+        "Start": 0.009000000000000001,
+        "End": 0.01,
+        "Percent": 81.46473779385171,
+        "Count": 58
+      },
+      {
+        "Start": 0.01,
+        "End": 0.011,
+        "Percent": 86.34719710669077,
+        "Count": 54
+      },
+      {
+        "Start": 0.011,
+        "End": 0.012,
+        "Percent": 90.41591320072332,
+        "Count": 45
+      },
+      {
+        "Start": 0.012,
+        "End": 0.014,
+        "Percent": 94.5750452079566,
+        "Count": 46
+      },
+      {
+        "Start": 0.014,
+        "End": 0.016,
+        "Percent": 95.84086799276673,
+        "Count": 14
+      },
+      {
+        "Start": 0.016,
+        "End": 0.018000000000000002,
+        "Percent": 96.38336347197107,
+        "Count": 6
+      },
+      {
+        "Start": 0.018000000000000002,
+        "End": 0.02,
+        "Percent": 97.10669077757686,
+        "Count": 8
+      },
+      {
+        "Start": 0.02,
+        "End": 0.025,
+        "Percent": 97.83001808318264,
+        "Count": 8
+      },
+      {
+        "Start": 0.025,
+        "End": 0.03,
+        "Percent": 98.4629294755877,
+        "Count": 7
+      },
+      {
+        "Start": 0.03,
+        "End": 0.035,
+        "Percent": 98.64376130198914,
+        "Count": 2
+      },
+      {
+        "Start": 0.035,
+        "End": 0.04,
+        "Percent": 99.18625678119349,
+        "Count": 6
+      },
+      {
+        "Start": 0.04,
+        "End": 0.045,
+        "Percent": 99.27667269439421,
+        "Count": 1
+      },
+      {
+        "Start": 0.05,
+        "End": 0.06,
+        "Percent": 99.54792043399638,
+        "Count": 3
+      },
+      {
+        "Start": 0.06,
+        "End": 0.07,
+        "Percent": 99.90958408679927,
+        "Count": 4
+      },
+      {
+        "Start": 0.25,
+        "End": 0.254076845,
+        "Percent": 100,
+        "Count": 1
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 0.00578
+      },
+      {
+        "Percentile": 75,
+        "Value": 0.00881756756756757
+      },
+      {
+        "Percentile": 90,
+        "Value": 0.011897777777777778
+      },
+      {
+        "Percentile": 99,
+        "Value": 0.038283333333333336
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 0.06973500000000032
+      }
+    ]
+  },
+  "Exactly": 0,
+  "Jitter": false,
+  "Uniform": false,
+  "NoCatchUp": false,
+  "RunID": 0,
+  "AccessLoggerInfo": "",
+  "RetCodes": {
+    "200": 94,
+    "503": 1106
+  },
+  "IPCountMap": {
+    "10.99.71.121:8080": 4
+  },
+  "Insecure": false,
+  "CACert": "",
+  "Cert": "",
+  "Key": "",
+  "UnixDomainSocket": "",
+  "URL": "http://springfactorialservice.default.traefik.mesh:8080/sporadic-delay-with-config/5000?isCB=false\u0026failureRate=0.6\u0026delay=200",
+  "NumConnections": 1,
+  "Compression": false,
+  "DisableFastClient": false,
+  "HTTP10": false,
+  "DisableKeepAlive": false,
+  "AllowHalfClose": false,
+  "FollowRedirects": false,
+  "Resolve": "",
+  "HTTPReqTimeOut": 3000000000,
+  "UserCredentials": "",
+  "ContentType": "",
+  "Payload": "",
+  "LogErrors": true,
+  "ID": 0,
+  "SequentialWarmup": false,
+  "ConnReuseRange": [
+    0,
+    0
+  ],
+  "Sizes": {
+    "Count": 1200,
+    "Min": 153,
+    "Max": 16456,
+    "Sum": 1716082,
+    "Avg": 1430.0683333333334,
+    "StdDev": 4380.541234862487,
+    "Data": [
+      {
+        "Start": 153,
+        "End": 200,
+        "Percent": 92.16666666666667,
+        "Count": 1106
+      },
+      {
+        "Start": 16000,
+        "End": 16456,
+        "Percent": 100,
+        "Count": 94
+      }
+    ],
+    "Percentiles": null
+  },
+  "HeaderSizes": {
+    "Count": 1200,
+    "Min": 0,
+    "Max": 119,
+    "Sum": 11186,
+    "Avg": 9.321666666666667,
+    "StdDev": 31.974753539142235,
+    "Data": [
+      {
+        "Start": 0,
+        "End": 0,
+        "Percent": 92.16666666666667,
+        "Count": 1106
+      },
+      {
+        "Start": 100,
+        "End": 119,
+        "Percent": 100,
+        "Count": 94
+      }
+    ],
+    "Percentiles": null
+  },
+  "SocketCount": 1106,
+  "AbortOn": 0
+}

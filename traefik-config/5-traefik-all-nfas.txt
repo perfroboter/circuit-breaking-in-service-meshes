@@ -1,1 +1,1 @@
-ResponseCodeRatio(500, 600, 0, 600) > 0.5 || LatencyAtQuantileMS(50.0) > 100 || LatencyAtQuantileMS(90.0) > 200
+mesh.traefik.io/circuit-breaker-expression="ResponseCodeRatio(500, 600, 0, 600) > 0.5 || LatencyAtQuantileMS(50.0) > 100 || LatencyAtQuantileMS(90.0) > 200"

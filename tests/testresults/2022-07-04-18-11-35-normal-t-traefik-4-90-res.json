@@ -1,0 +1,222 @@
+{
+  "RunType": "HTTP",
+  "Labels": "normal-t-traefik-4-90-res",
+  "StartTime": "2022-07-04T16:11:35.61881021Z",
+  "RequestedQPS": "10",
+  "RequestedDuration": "2m0s",
+  "ActualQPS": 9.995432371942664,
+  "ActualDuration": 120054836584,
+  "NumThreads": 4,
+  "Version": "1.34.1",
+  "DurationHistogram": {
+    "Count": 1200,
+    "Min": 0.011892856,
+    "Max": 0.091618402,
+    "Sum": 35.63793312200001,
+    "Avg": 0.029698277601666673,
+    "StdDev": 0.008921196674013454,
+    "Data": [
+      {
+        "Start": 0.011892856,
+        "End": 0.012,
+        "Percent": 0.08333333333333333,
+        "Count": 1
+      },
+      {
+        "Start": 0.012,
+        "End": 0.014,
+        "Percent": 0.5,
+        "Count": 5
+      },
+      {
+        "Start": 0.014,
+        "End": 0.016,
+        "Percent": 1.5833333333333333,
+        "Count": 13
+      },
+      {
+        "Start": 0.016,
+        "End": 0.018000000000000002,
+        "Percent": 5.25,
+        "Count": 44
+      },
+      {
+        "Start": 0.018000000000000002,
+        "End": 0.02,
+        "Percent": 9.25,
+        "Count": 48
+      },
+      {
+        "Start": 0.02,
+        "End": 0.025,
+        "Percent": 22.833333333333332,
+        "Count": 163
+      },
+      {
+        "Start": 0.025,
+        "End": 0.03,
+        "Percent": 63.916666666666664,
+        "Count": 493
+      },
+      {
+        "Start": 0.03,
+        "End": 0.035,
+        "Percent": 84.66666666666667,
+        "Count": 249
+      },
+      {
+        "Start": 0.035,
+        "End": 0.04,
+        "Percent": 90.75,
+        "Count": 73
+      },
+      {
+        "Start": 0.04,
+        "End": 0.045,
+        "Percent": 93.83333333333333,
+        "Count": 37
+      },
+      {
+        "Start": 0.045,
+        "End": 0.05,
+        "Percent": 96.25,
+        "Count": 29
+      },
+      {
+        "Start": 0.05,
+        "End": 0.06,
+        "Percent": 98.83333333333333,
+        "Count": 31
+      },
+      {
+        "Start": 0.06,
+        "End": 0.07,
+        "Percent": 99.41666666666667,
+        "Count": 7
+      },
+      {
+        "Start": 0.07,
+        "End": 0.08,
+        "Percent": 99.66666666666667,
+        "Count": 3
+      },
+      {
+        "Start": 0.08,
+        "End": 0.09,
+        "Percent": 99.83333333333333,
+        "Count": 2
+      },
+      {
+        "Start": 0.09,
+        "End": 0.091618402,
+        "Percent": 100,
+        "Count": 2
+      }
+    ],
+    "Percentiles": [
+      {
+        "Percentile": 50,
+        "Value": 0.02830628803245436
+      },
+      {
+        "Percentile": 75,
+        "Value": 0.032670682730923696
+      },
+      {
+        "Percentile": 90,
+        "Value": 0.03938356164383562
+      },
+      {
+        "Percentile": 99,
+        "Value": 0.06285714285714289
+      },
+      {
+        "Percentile": 99.9,
+        "Value": 0.09064736080000008
+      }
+    ]
+  },
+  "ErrorsDurationHistogram": {
+    "Count": 0,
+    "Min": 0,
+    "Max": 0,
+    "Sum": 0,
+    "Avg": 0,
+    "StdDev": 0,
+    "Data": null,
+    "Percentiles": null
+  },
+  "Exactly": 0,
+  "Jitter": false,
+  "Uniform": false,
+  "NoCatchUp": false,
+  "RunID": 0,
+  "AccessLoggerInfo": "",
+  "RetCodes": {
+    "200": 1200
+  },
+  "IPCountMap": {
+    "10.99.71.121:8080": 4
+  },
+  "Insecure": false,
+  "CACert": "",
+  "Cert": "",
+  "Key": "",
+  "UnixDomainSocket": "",
+  "URL": "http://springfactorialservice.default.traefik.mesh:8080/fac-without-cb/5000",
+  "NumConnections": 1,
+  "Compression": false,
+  "DisableFastClient": false,
+  "HTTP10": false,
+  "DisableKeepAlive": false,
+  "AllowHalfClose": false,
+  "FollowRedirects": false,
+  "Resolve": "",
+  "HTTPReqTimeOut": 3000000000,
+  "UserCredentials": "",
+  "ContentType": "",
+  "Payload": "",
+  "LogErrors": true,
+  "ID": 0,
+  "SequentialWarmup": false,
+  "ConnReuseRange": [
+    0,
+    0
+  ],
+  "Sizes": {
+    "Count": 1200,
+    "Min": 16456,
+    "Max": 16456,
+    "Sum": 19747200,
+    "Avg": 16456,
+    "StdDev": 0,
+    "Data": [
+      {
+        "Start": 16456,
+        "End": 16456,
+        "Percent": 100,
+        "Count": 1200
+      }
+    ],
+    "Percentiles": null
+  },
+  "HeaderSizes": {
+    "Count": 1200,
+    "Min": 119,
+    "Max": 119,
+    "Sum": 142800,
+    "Avg": 119,
+    "StdDev": 0,
+    "Data": [
+      {
+        "Start": 119,
+        "End": 119,
+        "Percent": 100,
+        "Count": 1200
+      }
+    ],
+    "Percentiles": null
+  },
+  "SocketCount": 4,
+  "AbortOn": 0
+}

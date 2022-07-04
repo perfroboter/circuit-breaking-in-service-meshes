@@ -1,1 +1,1 @@
-LatencyAtQuantileMS(90.0) > 200
+mesh.traefik.io/circuit-breaker-expression="LatencyAtQuantileMS(90.0) > 200"

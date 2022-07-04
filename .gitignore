@@ -16,6 +16,7 @@ bin/
 .project
 */test/
 */META-INF/
+istio-1.13.2/
 
 pom.xml.tag
 pom.xml.releaseBackup

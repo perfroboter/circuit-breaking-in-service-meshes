@@ -1,0 +1,9 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: springfac-cb-max-pending-requests
+spec:
+  host: springfactorialservice
+  trafficPolicy:
+    connectionPool:
+      http1MaxPendingRequests: 2

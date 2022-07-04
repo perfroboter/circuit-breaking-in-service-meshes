@@ -10,7 +10,7 @@ spec:
     protocol: "TCP"
     port: 8080
     targetPort: 8080
-  type:  ClusterIP #LoadBalancer (minikube tunnel erforderlihc)
+  type:  ClusterIP #LoadBalancer #oder ClusterIP (dann minikube tunnel nicht erforderlich)
 
 ---
 apiVersion: apps/v1

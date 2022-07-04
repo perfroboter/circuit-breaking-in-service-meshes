@@ -1,9 +1,0 @@
-micronaut:
-  application:
-    name: micronautncrservice
-  server:
-    port: 8080
-netty:
-  default:
-    allocator:
-      max-order: 3

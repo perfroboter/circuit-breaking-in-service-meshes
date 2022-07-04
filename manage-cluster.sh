@@ -82,6 +82,22 @@ start_istio() {
   echo "To activate the istio features use kubectl and yaml-Files"
 }
 
+uninstall_istio() {
+  echo "Uninstalling Istio..."
+  istioctl x uninstall --purge
+  kubectl delete namespace istio-system
+}
+
+install_traefik() {
+  echo "Start installing Traefik with Helm..."
+  helm repo add traefik-mesh https://helm.traefik.io/mesh
+  helm repo update
+  helm install traefik-mesh traefik-mesh/traefik-mesh
+  # Per-Node-Proxy sollte dann laufen
+  # neue Service-Discovery von traefik nutzen
+  # Circuit-Breaking ist am einfachsten per Annotation einstellbar
+}
+
 case "$1" in
   install-kubectl)
     install_kubectl
@@ -117,6 +133,14 @@ case "$1" in
     ;;
   start-istio)
     start_istio
+    exit 0
+    ;;
+  uninstall-istio)
+    uninstall_istio
+    exit 0
+    ;;
+   install-traefik)
+    install_traefik
     exit 0
     ;;
   *)

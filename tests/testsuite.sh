@@ -45,9 +45,42 @@ tests_r4j() {
   ./tests/testscript.sh "r4j-nfa-all" false true
 }
 
+tests_istio() {
+    # Test 1: Istio with consErrors
+    #kubectl apply -f istio-config/1-istio-consErrors.yaml
+    #sleep $SLEEPTIME
+    #./tests/testscript.sh "istio1-consErrors" false false
+    #kubectl delete -f istio-config/1-istio-consErrors.yaml
+    
+    # Test 2: Istio mit Max-Requests
+    #kubectl apply -f istio-config/2-istio-max-requests.yaml
+    #sleep $SLEEPTIME
+    #./tests/testscript.sh "istio2-maxReq" false false
+    #kubectl delete -f istio-config/2-istio-max-requests.yaml
+
+    # Test 3: Istio mit Max-Pending-Requests
+    #kubectl apply -f istio-config/3-istio-max-pending-requests.yaml
+    #sleep $SLEEPTIME
+    #./tests/testscript.sh "istio3-maxPenReq" false false
+    # kubectl delete -f istio-config/3-istio-max-pending-requests.yaml
+
+    # Test 4: Istio mit Max-connections
+    kubectl apply -f istio-config/4-istio-max-connections.yaml
+    sleep $SLEEPTIME
+    ./tests/testscript.sh "istio4-maxCon" false false
+     kubectl delete -f istio-config/4-istio-max-connections.yaml
+
+    # Test 5: Istio mit consErrros und Max-Requests
+    kubectl apply -f istio-config/5-istio-both.yaml
+    sleep $SLEEPTIME
+    ./tests/testscript.sh "istio5-both" false false
+    kubectl delete -f istio-config/5-istio-both.yaml   
+}
+
 testsuite_in_istio() {
-    tests_none
-    tests_r4j
+    #tests_none
+    #tests_r4j
+    tests_istio
     # Testrun 1: Kein Circuit-Breaker im Istio-Service-Mesh
     #./tests/testscript.sh "i-without-cb" false false
     #sleep $SLEEPTIME
@@ -70,29 +103,50 @@ testsuite_in_istio() {
 }
 
 testsuite_in_traefik() {
-    # Testrun 1: Kein Circuit-Breaker im Traefik-Mesh
-    ./tests/testscript.sh "t-without-cb" false false
-    sleep $SLEEPTIME
-    # Testrun 2: R4J-Circuit-Breaker in Traefik-Mesh
-    ./tests/testscript.sh "t-with-r4j-cb" false true
-    sleep $SLEEPTIME
-    #Testrun 3: Default-Traefik-CB
-    ./tests/testscript.sh "t-with-default-traefik" true false
-    sleep $SLEEPTIME
-    #Testrun 3: Default-Traefik-CB
-    kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression="ResponseCodeRatio(500, 600, 0, 600) > 0.20 || LatencyAtQuantileMS(50.0) > 200"
-    sleep $SLEEPTIME
-    ./tests/testscript.sh "t-with-config-traefik-cb" true false
     kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression-
+    # Testrun 1: Kein Circuit-Breaker im Traefik-Mesh
+    #./tests/testscript.sh "t-without-cb" false false
+    #sleep $SLEEPTIME
+    # Testrun 2: R4J-Circuit-Breaker in Traefik-Mesh
+    # ./tests/testscript.sh "t-with-r4j-cb" false true
+    #sleep $SLEEPTIME
+    #Testrun: Default-Traefik-CB
+    #./tests/testscript.sh "t-with-default-traefik" true false
+    #sleep $SLEEPTIME
+
+    #Testrun: 1-cons-Errors
+    kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression="ResponseCodeRatio(500, 600, 0, 600) > 1.0" --overwrite
+    sleep $SLEEPTIME
+    ./tests/testscript.sh "t-traefik-1-consErrors" true false
+
+    #Testrun: 2-errors-duration
+    kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression="ResponseCodeRatio(500, 600, 0, 600) > 0.5" --overwrite
+    sleep $SLEEPTIME
+    ./tests/testscript.sh "t-traefik-2-err-duration" true false
+
+    #Testrun: 3-avg-res-time
+    kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression="LatencyAtQuantileMS(50.0) > 100" --overwrite
+    sleep $SLEEPTIME
+    ./tests/testscript.sh "t-traefik-3-avg-res" true false
+
+    #Testrun: 4-90-res-time
+    kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression="LatencyAtQuantileMS(90.0) > 200" --overwrite
+    sleep $SLEEPTIME
+    ./tests/testscript.sh "t-traefik-4-90-res" true false
+
+    #Testrun: 5-all
+    kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression="ResponseCodeRatio(500, 600, 0, 600) > 0.5 || LatencyAtQuantileMS(50.0) > 100 || LatencyAtQuantileMS(90.0) > 200" --overwrite
+    sleep $SLEEPTIME
+    ./tests/testscript.sh "t-traefik-4-all" true false
 }
 
 
 case "$1" in
-  testsuite_in_istio)
+  testsuite-in-istio)
     testsuite_in_istio
     exit 0
     ;;
-  testsuite_in_traefik)
+  testsuite-in-traefik)
     testsuite_in_traefik
     exit 0
     ;;

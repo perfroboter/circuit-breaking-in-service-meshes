@@ -1,111 +1,78 @@
-# Resilience comparison
+# Vergleich von Circuit-Breaker-Implementierungen anhand eines Fallbeispiels
 
-Vergleich der Implementierung von Circuit-Breakern - Istio/Envoy und Spring/Resilience4J - anhand eines simplen Prototyps
+Studiengang: M. Sc. Wirtschaftsinformatik (in Teilzeit) an der FH Münster  
+Modul: Forschungs- und Entwicklungsprojekt  
+Semester: Sommersemester 2022  
+Student: Lennart Potthoff  
+  
+Repository zum Paper "TODO Titel einfügen". Beinhaltet den prototypischen Microservice anhand dem die drei Circuit-Breaker verglichen werden: 
 
-## Beispiel: Fakultät
+## Circuit-Breaker
 
-Es steht ein Microservice (`springfactorialservice`):
-Der Service gibt entweder die Fakultät zu einer Zahl (HttpStatus: 200)oder eine Fehlermeldung (HttpStatus: 500 / 503) zurück.
+- Java-Bibliothek Resilience4J: https://resilience4j.readme.io/docs/circuitbreaker
+- Service-Mesh Istio mit Envoy-Proxy: https://istio.io/latest/docs/tasks/traffic-management/circuit-breaking/
+- Service-Mesh Traefik Mesh mit Traefik-Proxy: https://doc.traefik.io/traefik-mesh/configuration/#circuit-breaker
 
-Weitere Pods (werden teils auch direkt mit skaffold gestaret):
-- Fortio: Lasttest-Tool
-- Httpbin: Test-Webserver (simpler Http-Service)
-- Deprecated: Binominalkoeffizient-Service (`micronautnCrService`)
-- Deprecated: Fakultäts-Service 2 (`micronautfactorialservice`) 
-- Curl-Tester: Pod, aus dem Curl-Befehle abgesetzt werden können
+##  Beispielservice Fakulätsservice
 
-## Microservices in Kubernetes Cluster starten
+Der `springfactorialservice` ist ein Java/Spring-Service, der die Fakultät zu eine Zahl berechnet.
+Der HTTP-Service gibt entweder die Fakultät zu einer Zahl (HttpStatus: 200) oder eine Fehlermeldung (HttpStatus: 500 / 503) zurück.
 
-Die Microservices werden mit Minikube lokal in einem Kubernetes Cluster ausgeführt. 
 
-Vorraussetzungen: 
-- Kubectl ist installiert (./manage-cluster install-kubectl)
-- Minikube ist installiert (./manage-cluster install-minikube)
-- Skaffold ist installiert und konfiguriert  (./manage-cluster install-skaffold && ./manage-cluster setup-skaffold-for-local )
-- Istio bzw. istioctl ist installiert (./manage-cluster install-istio)
-- Java-Services wurden einmal mit Maven gebaut (im Target-Ordner muss eine Jar liegen)
 
+TODO: Beschreibung, der Endpunkte
+
+## Inhalt
+
+- `springfactorialservice` Source-Code des Beispielservices
+- `fortio`: Kubernetes-Konfiguration für das Lasttest-Tool Fortio
+- `istio-config`: verschiedene Konfigurationen für den Circuit-Breaker von Istio
+- `traefik-config`: verschiedene Konfigurationen für den Circuit-Breaker von Traefik
+- `r4j-config`: verschiedene Konfigurationen für den Circuit-Breaker von Resilience4J
+- `tests`:
+    - `testsuite.sh`: Skript zur Steuerungen des gesamten Testdurchlaufs:  
+    Nacheinander werden die 7 Testfälle für die verschiedene Circuit-Breaker-Implementierungen und verschiedene Konfigurationen dieser aufgerufen.
+    - `testscript.sh`: Eigentliches Testskript, was Fortio mit den definierten Parametern aufruft. Hierbei werden immer 7 Testfälle für verschieden Circuit-Breaker-Situationen nacheinander durchgeführt:
+        - Normales Verhalten
+        - Permanetene Fehler
+        - Permanente Überlast
+        - Transiente Fehler
+        - Transiente Überlast
+        - Sporadische Fehler
+        - Sporadische Überlast
+    - `testresults`: Ordner, wo die von Fortio erzeugten Testergebnis-JSON's abgelegt werden (Testergebnisse der durchgeführten Tests liegen hier bereits) 
+    - `evaluation`:
+        - `evaluation.ipynb`: Pthon-Programm (jupyter notebook) zur Aufbereitung der Testergebnisse
+        - `evauluationresults`: Ordner mit den generierten Diagrammen aus der Evaluation
+
+## Anleitung
+
+Eine detaillierte Installations- und Bedingungsanleitung zur eigenständigen Durchführung des Tests ist hier zu finden:
+- Anleitung: [ANLEITUNG.md](ANLEITUNG.md)
+
+## Quickstart
+Voraussetzung: Installation gemäß Anleitung erfolgt
 ```bash
-# 1. Minibube starten
-./manage-cluster start-minikube
-# 2. Inject istio
-./mange-cluster start-istio
-# 3. Microservices containerisieren und in das Kubernetes Cluster deployen
+# Pods/Services starten
 skaffold run
-# 4. Test-Pod starten und curl absetzten
+# Bash in neuem Pods innerhalb des Cluster starten
 kubectl run -n default -it --rm --image=buildpack-deps:stretch-curl tester /bin/bash
-curl http://springfactorialservice:8080/fac-without/5 
-# 5. Cluster aufräumen und deployte Artefakte löschen
-skaffold delete
-
+# Beispielhafte Aufrufe der Beispielservices
+# Erfolgreiche Aufruf ohne R4J-Circuit-Breaker (Erwartetes Ergebnis: Http-Code 200, "{"result=120"}")
+curl http://springfactorialservice:8080/fac-without-cb/5 -v
+# Aufruf soll eine Exception innerhalb des Services auslösen (Erwartetes Ergebnis ohne Istio/Traefik-Circuit-Breaker: Http-Code 500)
+curl http://springfactorialservice:8080/throw-error-without-cb/ -v
+# Weitere Endpunkte mit eingeschalteten R4J-Circuit-Breaker und für den Test von transienten und sporadischen Fehler/Überlastsituationen
 ```
-
-## Nicht-funktionale Anforderungen 
-TODO: Kopieren aus Powerpoint
-
-## Testsuite
-
-Es steht eine Testsuite zur Verfügung, die verschiedene Tests gegen die drei Implementierung (kein Circuit-Breaker, R4J-Circuit-Breaker und Istio-Circuit-Breaker) laufen lässt.
-
-### Testszenarien (A-E)
-- A: Normales Verhalten
-- B: Permanente überlast
-- C: Permanente Fehler
-- D: Transiente Fehler
-- E: Transiente Überlast
-Details siehe  Excel-Testplan
-
-### Konfigurationsparameter
-- Circuit-Breaker-Implementierung: ohne CB, Istio-CB, R4J-CB, Traefik-CB
-    - Konfigurationen der CBs:
-        - Istio-CB: default (gibts ist ohne CB oder?), nur Fehlererkennung, nur Latenzerkennunng
-        - R4J: default, angepasste Fehler- und Latenzerkennung
-        - Traefik-CB: default, angepasste Fehler- und Latenzerkennung
-- Service-Mesh (Istio oder Traefik): ohne CB wird jeweils bei beiden durchgeführt
-- Kubernetes-Parameter:
-    - verwendete Replicas bzw. Nodes 
-- Eingangstraffik: QPS und Workload noch variieren?
-
-
-
-### Testausführung
-Die Testsuite lässt sich über wie folgt starten:
-Voraussetzungen:
-- aktueller Ordner ist Root-Pfad des Repos
-- die Konstanten im Testskript sind korrekt
-    - der Name des Fortio-Pods anpassen
-    - die IP des Fortio-Services anpassen
-    - Fortio-IP ist auch außerhalb des Clusters verfügbar (im seperaten Terminal `minikube tunnel` ausführen)
-
-```bash
-# Durchführung der gesamten Testsuite inkl. aller Szenarien
-bash tests/testsuite.sh run_all
-# Ausführung einzelner Szenarien
-bash tests/testsuite.sh run_e
-# Manelle Ausführung von Fortio
-bash tests/testsuite.sh run_fortio 1 "testing-httbin" "10" "1s" "http://httpbin:8000/get"
-```
-### Testergebnisse
-Die Testergebnisse werden vom Fortio-Pod geladen und unter `tests/testresults` als Json abgelegt.
-Die Ergebnisse können auch über die Fortio-UI als Histogram betrachtet werden http://10.102.109.95:8080/fortio/browse (IP ggf. anpassen).
-
-#### Testdurchlauf
-- 1.Durchlauf in Traefik in Minikube mit Replicas=1: Start: Mi 15. Jun 12:40:11 CEST 2022
-- 2. Durchlauf in Istio in 2/3-Node-Kubernetes mit Replicas=1 (Fortio und Service auf verschiedenen knoten): Start: Mi 15. Jun 16:17 CEST 2022
-
-## Circuit-Breaker von Istio
-Es gibt zwei verschiedene Konfigurationen
-1. Fehler (5xx) erkennen mittels `Outlier-Detection` in `DestinationRule`  
-`kubectl apply -f istio-config/springfac-cb-errors.yaml`  
-2. Überlast erkennen durch `TrafficControl` in `VirtualService`  
-`kubectl apply -f istio-config/springfac-cb-max-request.yaml`  
-Hinweis: Diese Regel funktioniert noch nicht optimal.
-
-## Circuit-Breaker von Spring Cloud bzw. Resilience4J
-Im `springfactorialservice` ist eine Resilience4J-CB-Konfiguration aktiv. Für Details zum Aufrufe siehe Tests.
 
 ## Quellen:
-- Micronaut-Client-Example: https://guides.micronaut.io/latest/micronaut-http-client-gradle-java.html
-- Micronaut-Service-Example: https://guides.micronaut.io/latest/creating-your-first-micronaut-app-gradle-java.html
-- https://stackoverflow.com/questions/891031/is-there-a-method-that-calculates-a-factorial-in-java
+Für den Aufbau dieses Repositories wurde auf die Docs der entsprechenden Technologien zurückgeriffen und Codeschnipsel aus Implementierungsbeispielen übernommen (bei größeren Codeübernahmen ist dies im Code kommentiert). Im Folgendenen eine Auflistund der entsprechenden Docs, Tutorials und Implementierungsbeispielen:
+- Spring-Rest-Service-Example: https://spring.io/guides/gs/rest-service/
+- Resilience4J: https://resilience4j.readme.io/docs/circuitbreaker
+- Spring-Cloud-Samples Circuit Breaker: https://github.com/spring-cloud-samples/spring-cloud-circuitbreaker-demo
+- Fakultätsberechnung mit BigInt:  https://stackoverflow.com/questions/891031/is-there-a-method-that-calculates-a-factorial-in-java
+- Istio (Installationsanleitung und Circuit-Breaker-Konfigruation): https://istio.io/latest/docs/ 
+(speziell : https://istio.io/latest/docs/tasks/traffic-management/circuit-breaking/, https://istio.io/latest/docs/reference/config/networking/destination-rule/)
+- Traefik (Installationsanleitung und Circuit-Breaker-Konfigruation): https://doc.traefik.io/traefik-mesh/ (speziell: https://doc.traefik.io/traefik-mesh/configuration/#circuit-breaker, https://doc.traefik.io/traefik/v2.0/middlewares/circuitbreaker/)
+- Evaluationsskript: https://docs.jupyter.org/en/latest/, https://pandas.pydata.org/docs/index.html, https://matplotlib.org/stable/index.html
 - Spring-Cloud: Spring-Cloud-Starter + Spring-Cloud-Samples Circuit Breaker
