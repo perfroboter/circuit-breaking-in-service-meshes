@@ -3,7 +3,7 @@ SLEEPTIME=35
 
 tests_none() {
   # Testrun 1: Kein Circuit-Breaker im Istio-Service-Mesh
-  ./tests/testscript.sh "without-cb" false false
+  ./tests/testscript.sh "t2-without-cb" false false
 }
 
 tests_r4j() {
@@ -12,37 +12,37 @@ tests_r4j() {
   skaffold delete
   skaffold run
   sleep $SLEEPTIME
-  ./tests/testscript.sh "r4j-default" false true
+  ./tests/testscript.sh "t2-r4j-default" false true
 
   cp springfactorialservice/r4j-properties/1-r4j-consErrors.properties springfactorialservice/src/main/resources/application.properties
   skaffold delete
   skaffold run
   sleep $SLEEPTIME
-  ./tests/testscript.sh "r4j-nfa-1" false true
+  ./tests/testscript.sh "t2-r4j-nfa-1" false true
 
   cp springfactorialservice/r4j-properties/2-r4j-timewindow.properties springfactorialservice/src/main/resources/application.properties
   skaffold delete
   skaffold run
   sleep $SLEEPTIME
-  ./tests/testscript.sh "r4j-nfa-2" false true
+  ./tests/testscript.sh "t2-r4j-nfa-2" false true
 
   cp resilience-comparison/springfactorialservice/r4j-properties/3-r4j-avg-res-time.properties springfactorialservice/src/main/resources/application.properties
   skaffold delete
   skaffold run
   sleep $SLEEPTIME
-  ./tests/testscript.sh "r4j-nfa-3" false true
+  ./tests/testscript.sh "t2-r4j-nfa-3" false true
 
   cp resilience-comparison/springfactorialservice/r4j-properties/4-r4j-90per-res-time.properties springfactorialservice/src/main/resources/application.properties
   skaffold delete
   skaffold run
   sleep $SLEEPTIME
-  ./tests/testscript.sh "r4j-nfa-4" false true
+  ./tests/testscript.sh "t2-r4j-nfa-4" false true
 
   cp /home/winfo/resilience-comparison/springfactorialservice/r4j-properties/5-r4j-all-nfas.properties springfactorialservice/src/main/resources/application.properties
   skaffold delete
   skaffold run
   sleep $SLEEPTIME
-  ./tests/testscript.sh "r4j-nfa-all" false true
+  ./tests/testscript.sh "t2-r4j-nfa-all" false true
 }
 
 tests_istio() {
@@ -78,8 +78,8 @@ tests_istio() {
 }
 
 testsuite_in_istio() {
-    #tests_none
-    #tests_r4j
+    tests_none
+    tests_r4j
     tests_istio
     # Testrun 1: Kein Circuit-Breaker im Istio-Service-Mesh
     #./tests/testscript.sh "i-without-cb" false false
@@ -103,6 +103,9 @@ testsuite_in_istio() {
 }
 
 testsuite_in_traefik() {
+    sleep 100
+    tests_none
+    tests_r4j
     kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression-
     # Testrun 1: Kein Circuit-Breaker im Traefik-Mesh
     #./tests/testscript.sh "t-without-cb" false false
@@ -117,27 +120,27 @@ testsuite_in_traefik() {
     #Testrun: 1-cons-Errors
     kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression="ResponseCodeRatio(500, 600, 0, 600) > 1.0" --overwrite
     sleep $SLEEPTIME
-    ./tests/testscript.sh "t-traefik-1-consErrors" true false
+    ./tests/testscript.sh "t2-traefik-1-consErrors" true false
 
     #Testrun: 2-errors-duration
     kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression="ResponseCodeRatio(500, 600, 0, 600) > 0.5" --overwrite
     sleep $SLEEPTIME
-    ./tests/testscript.sh "t-traefik-2-err-duration" true false
+    ./tests/testscript.sh "t2-traefik-2-err-duration" true false
 
     #Testrun: 3-avg-res-time
     kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression="LatencyAtQuantileMS(50.0) > 100" --overwrite
     sleep $SLEEPTIME
-    ./tests/testscript.sh "t-traefik-3-avg-res" true false
+    ./tests/testscript.sh "t2-traefik-3-avg-res" true false
 
     #Testrun: 4-90-res-time
     kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression="LatencyAtQuantileMS(90.0) > 200" --overwrite
     sleep $SLEEPTIME
-    ./tests/testscript.sh "t-traefik-4-90-res" true false
+    ./tests/testscript.sh "t2-traefik-4-90-res" true false
 
     #Testrun: 5-all
     kubectl annotate service springfactorialservice mesh.traefik.io/circuit-breaker-expression="ResponseCodeRatio(500, 600, 0, 600) > 0.5 || LatencyAtQuantileMS(50.0) > 100 || LatencyAtQuantileMS(90.0) > 200" --overwrite
     sleep $SLEEPTIME
-    ./tests/testscript.sh "t-traefik-4-all" true false
+    ./tests/testscript.sh "t2-traefik-4-all" true false
 }
 
 
