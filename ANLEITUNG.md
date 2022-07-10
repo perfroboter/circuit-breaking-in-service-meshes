@@ -54,7 +54,7 @@ skaffold delete
 # Istio deinstallieren
 ./mange-cluster.sh uninstall-istio
 # Traefik-Mesh installieren
-./manage-cluster.sh install-traefik #TODO
+./manage-cluster.sh install-traefik
 # Pods/Services mittels Skaffold starten
 skaffold run
 ```
@@ -66,4 +66,15 @@ skaffold run
 ```
 
 ## Teil 7: Evaluation der Testergebnisse
-TODO
+Vorraussetzung:
+    - jupyter notebook ist installiert
+
+Evaluationsskript liest alle Testergebnisse im Ordner (Testskript ein) und legt dann nach Testfällen sortiert die Rohdaten und zugehörige Diagramme unter `tests/evaluation/evaluationresults/` ab (die aktuellen Diagramme liegen dort bereits).
+```bash
+# Jupyter starten
+jupyter notebook
+# Innerhalb von Jupyter zum Installationsskript wechseln
+cd tests/evaluation/evaluation.ipynb
+#Ggbfs. Filterung, dass nur gewisse Datensätze für die Diagramme berücksichtigt werden enfernen (errors_relevant und overload_relevant)
+# "Run All" durchführen
+```

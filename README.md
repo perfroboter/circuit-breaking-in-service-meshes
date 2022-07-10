@@ -5,7 +5,7 @@ Modul: Forschungs- und Entwicklungsprojekt
 Semester: Sommersemester 2022  
 Student: Lennart Potthoff  
   
-Repository zum Paper "TODO Titel einfügen". Beinhaltet den prototypischen Microservice anhand dem die drei Circuit-Breaker verglichen werden: 
+Repository zum Paper "Vergleich von Cirucit-Breaker-Implementierungen in Service-Meshes". Beinhaltet den prototypischen Microservice anhand dem die drei Circuit-Breaker verglichen werden: 
 
 ## Circuit-Breaker
 
@@ -18,17 +18,13 @@ Repository zum Paper "TODO Titel einfügen". Beinhaltet den prototypischen Micro
 Der `springfactorialservice` ist ein Java/Spring-Service, der die Fakultät zu eine Zahl berechnet.
 Der HTTP-Service gibt entweder die Fakultät zu einer Zahl (HttpStatus: 200) oder eine Fehlermeldung (HttpStatus: 500 / 503) zurück.
 
-
-
-TODO: Beschreibung, der Endpunkte
-
 ## Inhalt
 
 - `springfactorialservice` Source-Code des Beispielservices
 - `fortio`: Kubernetes-Konfiguration für das Lasttest-Tool Fortio
 - `istio-config`: verschiedene Konfigurationen für den Circuit-Breaker von Istio
 - `traefik-config`: verschiedene Konfigurationen für den Circuit-Breaker von Traefik
-- `r4j-config`: verschiedene Konfigurationen für den Circuit-Breaker von Resilience4J
+- `springfactorialservice/r4j-properties`: verschiedene Konfigurationen für den Circuit-Breaker von Resilience4J
 - `tests`:
     - `testsuite.sh`: Skript zur Steuerungen des gesamten Testdurchlaufs:  
     Nacheinander werden die 7 Testfälle für die verschiedene Circuit-Breaker-Implementierungen und verschiedene Konfigurationen dieser aufgerufen.
@@ -43,7 +39,7 @@ TODO: Beschreibung, der Endpunkte
     - `testresults`: Ordner, wo die von Fortio erzeugten Testergebnis-JSON's abgelegt werden (Testergebnisse der durchgeführten Tests liegen hier bereits) 
     - `evaluation`:
         - `evaluation.ipynb`: Pthon-Programm (jupyter notebook) zur Aufbereitung der Testergebnisse
-        - `evauluationresults`: Ordner mit den generierten Diagrammen aus der Evaluation
+        - `evauluationresults`: Ordner mit den generierten Diagrammen und zusammengefassten Daten aus der Evaluation
 
 ## Anleitung
 
