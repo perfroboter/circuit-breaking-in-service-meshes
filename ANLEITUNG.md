@@ -15,13 +15,6 @@ Vorraussetzungen:
 # Services außerhalb des Clusters verfügbar machen (für Zugriff auf Fortio-Testdaten etc.)
 minikube tunnel # im seperaten Terminalfenster offen lassen
 ```
-Vorraussetzungen: 
-- Kubectl ist installiert (./manage-cluster install-kubectl)
-- Minikube ist installiert (./manage-cluster install-minikube)
-- Skaffold ist installiert und konfiguriert  (./manage-cluster install-skaffold && ./manage-cluster setup-skaffold-for-local )
-- Istio bzw. istioctl ist installiert (./manage-cluster install-istio)
-- Java-Services wurden einmal mit Maven gebaut (im Target-Ordner muss eine Jar liegen)
-
 
 ## Teil 2: Istio installieren
 
