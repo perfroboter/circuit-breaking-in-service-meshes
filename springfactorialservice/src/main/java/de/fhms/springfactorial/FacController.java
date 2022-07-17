@@ -82,8 +82,8 @@ public class FacController {
 	 * Berechnet die Fakultät zur übergebendenen Zahl. Der Circuit-Breaker ist bei
 	 * dieser Methode nicht aktiviert.
 	 * 
-	 * @param num
-	 * @return Fakultät als Json-String
+	 * @param num Zahl, zu der die Fakultät berechnet werden soll
+	 * @return Fakultät in HTTP-Antwort
 	 */
 	@GetMapping(value="/fac-without-cb/{num}")
 	public String facWithoutCB(@PathVariable long num) {
@@ -96,13 +96,13 @@ public class FacController {
 	 * akuteller Systemzeit werden entweder erfolgreiche oder nicht-erfolgreiche
 	 * Antworten zurückgegeben.
 	 * 
-	 * @param num
+	 * @param num	Zahl, zu der die Fakultät berechnet werden soll
 	 * @param isCB  Angabe, ob Circuit-Breaker verwendet werden soll oder nicht
 	 * @param from  Startzeitpunkt (Systemzeit in Millis), ab wann Exceptions (5xx)
 	 *              zurückgegeben werden
 	 * @param until Endzeitpunkt (Systemzeit in Millis), bis wann Exceptions (5xx)
 	 *              zurückgegeben werden
-	 * @return
+	 * @return	Fakultät in HTTP-Antwort / Antwort mit Fehlercode
 	 * @throws Exception
 	 */
 	@GetMapping("/fac-with-config/{num}")
@@ -124,22 +124,20 @@ public class FacController {
 	}
 
 	/**
-	 * Diese Methode ermöglicht ein zeitlich gesteuerte "DelayInjection". Je nach
+	 * Diese Methode ermöglicht eine zeitlich gesteuerte "DelayInjection". Je nach
 	 * akuteller Systemzeit werden entweder direkte oder verzögerte erfolgreiche
 	 * Antworten zurückgegeben.
 	 * 
-	 * @param num
+	 * @param num	Zahl, zu der die Fakultät berechnet werden soll
 	 * @param isCB  Angabe, ob Circuit-Breaker verwendet werden soll oder nicht
 	 * @param from  Startzeitpunkt (Systemzeit in Millis), ab wann Exceptions (5xx)
 	 *              zurückgegeben werden
 	 * @param until Endzeitpunkt (Systemzeit in Millis), bis wann Exceptions (5xx)
 	 *              zurückgegeben werden
 	 * @param delay	Verzögerung in Millis (zusätzlich zum eigentlichen Workload)
-	 * @return
+	 * @return	Fakultät in (teils verzögerter) HTTP-Antwort
 	 * @throws Exception
 	 */
-	// TODO: Delay durch Kopieren der andern Methoden eingefügt. Ändern durch
-	// optionale RequestParam "delay"
 	@GetMapping("/delay-with-config/{num}")
 	public String delayWithConfig(@PathVariable long num, @RequestParam boolean isCB, @RequestParam long from,
 			@RequestParam long until, @RequestParam long delay) throws Exception {
@@ -170,6 +168,17 @@ public class FacController {
 		}
 	}
 	
+	/**
+	 * Diese Methode ermöglicht eine sporadische Fehler. Je nach angegebener Fehlerrate schlagen Anfragen an diesen 
+	 * Service mit einer bestimmten Wahrscheinlichkeit fehl und dann wird mit einem Http 500 (oder 503) geantwortet.
+	 * 
+	 * @param num	Zahl, zu der die Fakultät berechnet werden soll
+	 * @param isCB  Angabe, ob Circuit-Breaker verwendet werden soll oder nicht
+	 * @param failureRate Fehlerrate, die angibt mit welcher Wahrscheinlichkeit dieser Request zu einer fehlerhaften Antwort führt
+	 *              zurückgegeben werden
+	 * @return	Fakultät in HTTP-Antwort oder Antwort mit Http-Fehlercode
+	 * @throws Exception
+	 */
 	@GetMapping("/sporadic-error-with-config/{num}")
 	public String sporadicErrorWithConfig(@PathVariable long num,@RequestParam boolean isCB,  @RequestParam double failureRate) throws Exception {
 		if (isCB) {
@@ -187,6 +196,17 @@ public class FacController {
 		}
 	}
 	
+	/**
+	 * Diese Methode ermöglicht eine sporadische Überlast. Je nach angegebener Fehlerrate werden Anfragen an diesen 
+	 * Service mit einer bestimmten Wahrscheinlichkeit verzögert oder eben nicht.
+	 * 
+	 * @param num	Zahl, zu der die Fakultät berechnet werden soll
+	 * @param isCB  Angabe, ob Circuit-Breaker verwendet werden soll oder nicht
+	 * @param failureRate Fehlerrate, die angibt mit welcher Wahrscheinlichkeit dieser Request zu einer verzögerten Antwort führt
+	 * @param delay Verzögerung in Millis (zusätzlich zum eigentlichen Workload)
+	 * @return	Fakultät in HTTP-Antwort oder verzögerte Antwort
+	 * @throws Exception
+	 */
 	@GetMapping("/sporadic-delay-with-config/{num}")
 	public String sporadicDelayWithConfig(@PathVariable long num,@RequestParam boolean isCB,  @RequestParam double failureRate,  @RequestParam long delay) throws Exception {
 		if (isCB) {
@@ -217,7 +237,7 @@ public class FacController {
 	}
 
 	/**
-	 * Workload-Methode, die die Fakulät berechnet. Quelle: vgl.
+	 * Workload-Methode, die die Fakulät zu einem BigInt berechnet. Quelle: vgl.
 	 * https://stackoverflow.com/a/7879559
 	 * 
 	 * @param number

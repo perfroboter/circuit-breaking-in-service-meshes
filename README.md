@@ -16,7 +16,7 @@ Repository zum Paper "Vergleich von Cirucit-Breaker-Implementierungen in Service
 ##  Beispielservice Fakulätsservice
 
 Der `springfactorialservice` ist ein Java/Spring-Service, der die Fakultät zu eine Zahl berechnet.
-Der HTTP-Service gibt entweder die Fakultät zu einer Zahl (HttpStatus: 200) oder eine Fehlermeldung (HttpStatus: 500 / 503) zurück.
+Der HTTP-Service gibt entweder die Fakultät zu einer Zahl (Http-Status: 200) oder eine Fehlermeldung (Http-Status: 500 / 503) zurück.
 
 ## Inhalt
 
@@ -61,8 +61,14 @@ curl http://springfactorialservice:8080/throw-error-without-cb/ -v
 # Weitere Endpunkte mit eingeschalteten R4J-Circuit-Breaker und für den Test von transienten und sporadischen Fehler/Überlastsituationen
 ```
 
-## Quellen:
-Für den Aufbau dieses Repositories wurde auf die Docs der entsprechenden Technologien zurückgeriffen und Codeschnipsel aus Implementierungsbeispielen übernommen (bei größeren Codeübernahmen ist dies im Code kommentiert). Im Folgendenen eine Auflistund der entsprechenden Docs, Tutorials und Implementierungsbeispielen:
+## Testfälle
+
+Folgendes Grafik zeigt den von Fortio generierten Datenverkehr (vgl. `tests`) inkl. des erwarteten Ergebnissen hinsichtlich Http-Codes und Antwortzeit:
+![Testfälle und erwartete Ergebnisse](/tests/Testf%C3%A4lle-und-erwartetes-Ergebnis.png)
+
+
+## Quellen
+Für den Aufbau dieses Repositories wurde auf die Docs der entsprechenden Technologien zurückgeriffen und Codeschnipsel aus Implementierungsbeispielen übernommen (bei größeren Codeübernahmen ist dies im Code kommentiert). Im Folgendenen eine Auflistung der entsprechenden Docs, Tutorials und Implementierungsbeispielen:
 - Spring-Rest-Service-Example: https://spring.io/guides/gs/rest-service/
 - Resilience4J: https://resilience4j.readme.io/docs/circuitbreaker
 - Spring-Cloud-Samples Circuit Breaker: https://github.com/spring-cloud-samples/spring-cloud-circuitbreaker-demo

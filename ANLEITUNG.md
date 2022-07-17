@@ -1,5 +1,5 @@
 # Anleitung zur Installation und Testdurchführung
-Folgende Anleitung ermöglicht das Aufsetzten des Prototyps in Minikube auf einem Linux-System (TODO: Teils auch für MacOS).
+Folgende Anleitung ermöglicht das Aufsetzten des Prototyps in Minikube auf einem Linux-System (teils auch für MacOS).
 
 ## Teil 1: Kubernetes (Minikube) etc. installieren
 Vorraussetzungen:
@@ -62,12 +62,11 @@ skaffold run
 Vorraussetzung:
     - jupyter notebook ist installiert
 
-Evaluationsskript liest alle Testergebnisse im Ordner (Testskript ein) und legt dann nach Testfällen sortiert die Rohdaten und zugehörige Diagramme unter `tests/evaluation/evaluationresults/` ab (die aktuellen Diagramme liegen dort bereits).
+Evaluationsskript liest alle Testergebnisse im Ordner `tests/testresults` ein und legt dann nach Testfällen sortiert die Rohdaten und zugehörige Diagramme unter `tests/evaluation/evaluationresults/` ab (die aktuellen Diagramme liegen dort bereits).
 ```bash
 # Jupyter starten
 jupyter notebook
-# Innerhalb von Jupyter zum Installationsskript wechseln
-cd tests/evaluation/evaluation.ipynb
+# Innerhalb von Jupyter zum Skript wechseln: tests/evaluation/evaluation.ipynb
 #Ggbfs. Filterung, dass nur gewisse Datensätze für die Diagramme berücksichtigt werden enfernen (errors_relevant und overload_relevant)
 # "Run All" durchführen
 ```
