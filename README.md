@@ -5,7 +5,7 @@ Modul: Forschungs- und Entwicklungsprojekt
 Semester: Sommersemester 2022  
 Student: Lennart Potthoff  
   
-Repository zum Paper "Vergleich von Cirucit-Breaker-Implementierungen in Service-Meshes". Beinhaltet den prototypischen Microservice anhand dem die drei Circuit-Breaker verglichen werden: 
+Repository zum Paper ["Vergleich von Cirucit-Breaker-Implementierungen in Service-Meshes"](https://www.hb.fh-muenster.de/opus4/frontdoor/index/index/docId/15523). Beinhaltet den prototypischen Microservice anhand dem die drei Circuit-Breaker verglichen werden: 
 
 ## Circuit-Breaker
 
